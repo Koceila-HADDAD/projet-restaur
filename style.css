@@ -1,0 +1,72 @@
+#con {
+    display: flex;
+  justify-content:space-around;
+  align-items:center ;
+  }
+  #div2{
+    /* background-color: rgba(0, 51, 102, 0.3); */
+    background: white;
+
+  }
+  #titre{
+    color: rgb(212, 175, 55);
+    font-family: "Playfair Display", serif;
+  }
+  #menue{
+    font-family: 'Dancing Script', cursive; 
+    color: rgb(88, 83, 73) ;
+  }
+  #div3{
+    background-color: black;
+    color: white;
+
+  }
+  h5{
+    font-family: 'Dancing Script', cursive; 
+  }
+  .image-container {
+  position: relative;
+  display: inline-block; /* Ajuste la taille au contenu */
+}
+
+.image-container img {
+  width: 100%; /* Ajuste la largeur selon le conteneur */
+  height: auto;
+  display: block;
+}
+.texte{
+  width: 35%;
+  margin-left: 5%;
+  font-size: 1.5vw
+}
+.image-container .texte {
+  position: absolute;
+  top: 30%;
+  left: 00%;
+  color: white;
+  padding: 10px 20px;
+  
+}
+.prog{
+  width: 45%;
+  margin-left: 7%;
+  font-size: 1.2vw
+
+}
+.image-container .prog{
+  position: absolute;
+  bottom: 1%;
+  left: 00%;
+  color: white;
+
+}
+.link-zoom {
+  color: #f5f5f5;
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out;
+}
+
+.link-zoom:hover {
+  transform: scale(1.1); /* Zoom de 10% */
+  color: #d0e1f3; /* Changement de couleur */
+}

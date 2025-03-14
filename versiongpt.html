@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bleu Blanc Saveur</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <header>
+        <!-- Navbar -->
+        <div class="container">
+            <div class="row align-items-center py-2">
+                <div class="col-sm-4">
+                    <nav class="navbar navbar-expand-lg bg-white">
+                        <div class="container-fluid">
+                            <img src="logo/logooo2.png" alt="Logo" width="40" height="40">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item"><a class="nav-link active" href="#">Accueil</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Produits</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Panier</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="col-sm-5 text-center">
+                    <a href="accvisiteur.html"><img src="logo/logooo.png" alt="Bleu Blanc Saveur" class="img-fluid"></a>
+                </div>
+                <div class="col-sm-3 text-end">
+                    <button type="button" class="btn btn-outline-primary">Connexion</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Image de couverture -->
+        <div class="container-fluid text-center position-relative">
+            <img src="photos/arrplan.jpg" class="img-fluid w-100" alt="Image de fond">
+            <div class="position-absolute top-50 start-50 translate-middle text-white text-shadow p-4 bg-dark bg-opacity-50 rounded">
+                <p>Bleu Blanc Saveur vous invite à une expérience gastronomique raffinée...</p>
+                <p>Horaires : mardi-dimanche : 11h00-15h00 / 18h30-23h30 | lundi : fermé</p>
+            </div>
+        </div>
+        
+        <!-- Menu -->
+        <div class="container py-5">
+            <h2 class="text-center"><img src="logo/logooo2.png" alt="Logo" width="40" height="40"> Le Menu du Chef</h2>
+            <div class="row g-3">
+                <div class="col-sm-4">
+                    <div class="card">
+                        <img src="logo/plat.jpg" class="card-img-top" alt="Fleur en papier dorée">
+                        <div class="card-body">
+                            <h5 class="card-title">Fleur en papier dorée</h5>
+                            <p class="card-text">Prix : 35 €</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Ajoute d'autres plats ici -->
+            </div>
+        </div>
+        
+        <!-- Carousel Evenements -->
+        <div class="container py-5">
+            <h2 class="text-center"><img src="logo/logooo2.png" alt="Logo" width="40" height="40"> Événements</h2>
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner rounded-3">
+                    <div class="carousel-item active">
+                        <img src="evenements/ev11.jpg" class="d-block w-100" alt="Événement 1">
+                    </div>
+                    <!-- Ajoute d'autres images ici -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="container-fluid bg-light py-4 mt-5">
+            <div class="row text-center">
+                <div class="col-sm-4">
+                    <img src="photos/footer.png" class="img-fluid" alt="Logo footer">
+                </div>
+                <div class="col-sm-4">
+                    <ul class="list-unstyled">
+                        <li><strong>DISCOVER :</strong></li>
+                        <li><a href="aboutus.html">About us</a></li>
+                        <li><a href="#">Nos Chefs</a></li>
+                        <li><a href="#">Nos Plats</a></li>
+                        <li><a href="#">Événements</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-4">
+                    <p><a href="tel:+33758428417"><i class="bi bi-telephone"></i> +33 7 58 42 84 17</a></p>
+                    <p><a href="mailto:koceila.haddad@outlook.com"><i class="bi bi-envelope"></i> koceila.haddad@outlook.com</a></p>
+                    <p><a href="https://maps.app.goo.gl/uJyLGFWHdaoNxB3X7" target="_blank"><i class="bi bi-geo-alt"></i> 30 Rue Esquirol, 75013 Paris</a></p>
+                </div>
+            </div>
+        </footer>
+    </header>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
