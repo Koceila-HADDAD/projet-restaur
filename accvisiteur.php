@@ -75,221 +75,42 @@ try{
          </div>
         <!-- le menue  -->
         <div id="div2" class="container">
-            <h2 id="menue"> <img src="logo/logooo2.png" alt="" width="40" height="40"> Le Menue Du Chef :</h2>
-            <div class="row  p-5">
-                
-            <div class="col-sm-4 ">
-                        <div class="card h-100 ">
-                            <?php
-                            // Exécuter la requête SQL
-                            $req = $bdd->query("SELECT * FROM plat WHERE id_plat = '001'");
-                            $data = $req->fetch(PDO::FETCH_OBJ); // Récupérer la ligne sous forme d'objet
-                            $nom_plat = $data->nom_plat;
-                            $prix = $data->prix;
-                            $image = $data->image_plat; // Supposons que la colonne contenant le BLOB s'appelle "image"
+                <h2 id="menue"> <img src="logo/logooo2.png" alt="" width="40" height="40"> Le Menu Du Chef :</h2>
 
-                            // Convertir l'image BLOB en base64 pour l'affichage
-                            $imageData = base64_encode($image);
-                            ?>
+                <?php
+                $req = $bdd->query("SELECT * FROM plat ORDER BY id_plat LIMIT 6");
+                $i = 0;
+                for ($i = 0; $i <= 5; $i++) {
+                  $data = $req->fetch(PDO::FETCH_OBJ);
+                    if ($i % 3 == 0) {
+                        if ($i >0){
+                        echo '</div>';}
+                        echo '<div class="row p-5">';
+                    }
 
-                            <!-- Afficher l'image BLOB récupérée -->
-                            <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" class="card-img-top h-100 " alt="<?php echo $nom_plat; ?>">
-                            <div class="card-body">
-                                <h5><?php echo $nom_plat; ?></h5>
-                                <h5>Prix :<?php echo $prix; ?> €</h5>
-                            </div>
-                        </div>
-            </div>
+                    $nom_plat = $data->nom_plat;
+                    $prix = $data->prix;
+                    $image = $data->image_plat;
+                    $imageData = base64_encode($image);
+                ?>
 
-            <div class="col-sm-4">
+                    <div class="col-sm-4">
                         <div class="card h-100">
-                            <?php
-                            // Exécuter la requête SQL
-                            $req = $bdd->query("SELECT * FROM plat WHERE id_plat = '002'");
-                            $data = $req->fetch(PDO::FETCH_OBJ); // Récupérer la ligne sous forme d'objet
-                            $nom_plat = $data->nom_plat;
-                            $prix = $data->prix;
-                            $image = $data->image_plat; // Supposons que la colonne contenant le BLOB s'appelle "image"
-
-                            // Convertir l'image BLOB en base64 pour l'affichage
-                            $imageData = base64_encode($image);
-                            ?>
-
-                            <!-- Afficher l'image BLOB récupérée -->
                             <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" class="card-img-top h-100" alt="<?php echo $nom_plat; ?>">
                             <div class="card-body">
                                 <h5><?php echo $nom_plat; ?></h5>
-                                <h5>Prix :<?php echo $prix; ?> €</h5>
+                                <h5>Prix : <?php echo $prix; ?> €</h5>
                             </div>
                         </div>
+                    </div>
+
+                <?php
+                    
+                }
+               
+                ?>
             </div>
-            <div class="col-sm-4">
-                        <div class="card h-100">
-                            <?php
-                            // Exécuter la requête SQL
-                            $req = $bdd->query("SELECT * FROM plat WHERE id_plat = '003'");
-                            $data = $req->fetch(PDO::FETCH_OBJ); // Récupérer la ligne sous forme d'objet
-                            $nom_plat = $data->nom_plat;
-                            $prix = $data->prix;
-                            $image = $data->image_plat; // Supposons que la colonne contenant le BLOB s'appelle "image"
-
-                            // Convertir l'image BLOB en base64 pour l'affichage
-                            $imageData = base64_encode($image);
-                            ?>
-
-                            <!-- Afficher l'image BLOB récupérée -->
-                            <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" class="card-img-top h-100" alt="<?php echo $nom_plat; ?>">
-                            <div class="card-body">
-                                <h5><?php echo $nom_plat; ?></h5>
-                                <h5>Prix :<?php echo $prix; ?> €</h5>
-                            </div>
-                        </div>
-            </div>
-                
-            </div>
-            <div class="row p-5 ">
-                
-            <div class="col-sm-4">
-                        <div class="card h-100">
-                            <?php
-                            // Exécuter la requête SQL
-                            $req = $bdd->query("SELECT * FROM plat WHERE id_plat = '004'");
-                            $data = $req->fetch(PDO::FETCH_OBJ); // Récupérer la ligne sous forme d'objet
-                            $nom_plat = $data->nom_plat;
-                            $prix = $data->prix;
-                            $image = $data->image_plat; // Supposons que la colonne contenant le BLOB s'appelle "image"
-
-                            // Convertir l'image BLOB en base64 pour l'affichage
-                            $imageData = base64_encode($image);
-                            ?>
-
-                            <!-- Afficher l'image BLOB récupérée -->
-                            <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" class="card-img-top h-100" alt="<?php echo $nom_plat; ?>">
-                            <div class="card-body">
-                                <h5><?php echo $nom_plat; ?></h5>
-                                <h5>Prix :<?php echo $prix; ?> €</h5>
-                            </div>
-                        </div>
-            </div>
-            <div class="col-sm-4">
-                        <div class="card h-100">
-                            <?php
-                            // Exécuter la requête SQL
-                            $req = $bdd->query("SELECT * FROM plat WHERE id_plat = '005'");
-                            $data = $req->fetch(PDO::FETCH_OBJ); // Récupérer la ligne sous forme d'objet
-                            $nom_plat = $data->nom_plat;
-                            $prix = $data->prix;
-                            $image = $data->image_plat; // Supposons que la colonne contenant le BLOB s'appelle "image"
-
-                            // Convertir l'image BLOB en base64 pour l'affichage
-                            $imageData = base64_encode($image);
-                            ?>
-
-                            <!-- Afficher l'image BLOB récupérée -->
-                            <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" class="card-img-top h-100" alt="<?php echo $nom_plat; ?>">
-                            <div class="card-body">
-                                <h5><?php echo $nom_plat; ?></h5>
-                                <h5>Prix :<?php echo $prix; ?> €</h5>
-                            </div>
-                        </div>
-            </div>
-                
-            <div class="col-sm-4">
-                        <div class="card h-100">
-                            <?php
-                            // Exécuter la requête SQL
-                            $req = $bdd->query("SELECT * FROM plat WHERE id_plat = '006'");
-                            $data = $req->fetch(PDO::FETCH_OBJ); // Récupérer la ligne sous forme d'objet
-                            $nom_plat = $data->nom_plat;
-                            $prix = $data->prix;
-                            $image = $data->image_plat; // Supposons que la colonne contenant le BLOB s'appelle "image"
-
-                            // Convertir l'image BLOB en base64 pour l'affichage
-                            $imageData = base64_encode($image);
-                            ?>
-
-                            <!-- Afficher l'image BLOB récupérée -->
-                            <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" class="card-img-top h-100" alt="<?php echo $nom_plat; ?>">
-                            <div class="card-body">
-                                <h5><?php echo $nom_plat; ?></h5>
-                                <h5>Prix :<?php echo $prix; ?> €</h5>
-                            </div>
-                        </div>
-            </div>
-                
-            </div>
-            <div class="row p-5 ">
-                
-            <div class="col-sm-4">
-                        <div class="card h-100">
-                            <?php
-                            // Exécuter la requête SQL
-                            $req = $bdd->query("SELECT * FROM plat WHERE id_plat = '007'");
-                            $data = $req->fetch(PDO::FETCH_OBJ); // Récupérer la ligne sous forme d'objet
-                            $nom_plat = $data->nom_plat;
-                            $prix = $data->prix;
-                            $image = $data->image_plat; // Supposons que la colonne contenant le BLOB s'appelle "image"
-
-                            // Convertir l'image BLOB en base64 pour l'affichage
-                            $imageData = base64_encode($image);
-                            ?>
-
-                            <!-- Afficher l'image BLOB récupérée -->
-                            <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" class="card-img-top h-100" alt="<?php echo $nom_plat; ?>">
-                            <div class="card-body">
-                                <h5><?php echo $nom_plat; ?></h5>
-                                <h5>Prix :<?php echo $prix; ?> €</h5>
-                            </div>
-                        </div>
-            </div>
-            <div class="col-sm-4">
-                        <div class="card h-100">
-                            <?php
-                            // Exécuter la requête SQL
-                            $req = $bdd->query("SELECT * FROM plat WHERE id_plat = '008'");
-                            $data = $req->fetch(PDO::FETCH_OBJ); // Récupérer la ligne sous forme d'objet
-                            $nom_plat = $data->nom_plat;
-                            $prix = $data->prix;
-                            $image = $data->image_plat; // Supposons que la colonne contenant le BLOB s'appelle "image"
-
-                            // Convertir l'image BLOB en base64 pour l'affichage
-                            $imageData = base64_encode($image);
-                            ?>
-
-                            <!-- Afficher l'image BLOB récupérée -->
-                            <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" class="card-img-top h-100 " alt="<?php echo $nom_plat; ?>">
-                            <div class="card-body">
-                                <h5><?php echo $nom_plat; ?></h5>
-                                <h5>Prix :<?php echo $prix; ?> €</h5>
-                            </div>
-                        </div>
-            </div>
-                
-            <div class="col-sm-4">
-                        <div class="card h-100">
-                            <?php
-                            // Exécuter la requête SQL
-                            $req = $bdd->query("SELECT * FROM plat WHERE id_plat = '009'");
-                            $data = $req->fetch(PDO::FETCH_OBJ); // Récupérer la ligne sous forme d'objet
-                            $nom_plat = $data->nom_plat;
-                            $prix = $data->prix;
-                            $image = $data->image_plat; // Supposons que la colonne contenant le BLOB s'appelle "image"
-
-                            // Convertir l'image BLOB en base64 pour l'affichage
-                            $imageData = base64_encode($image);
-                            ?>
-
-                            <!-- Afficher l'image BLOB récupérée -->
-                            <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" class="card-img-top h-100" alt="<?php echo $nom_plat; ?>">
-                            <div class="card-body">
-                                <h5><?php echo $nom_plat; ?></h5>
-                                <h5>Prix :<?php echo $prix; ?> €</h5>
-                            </div>
-                        </div>
-            </div>
-                
-            </div>
-           
+                                
 
         </div>
         <br>
