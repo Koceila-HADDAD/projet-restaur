@@ -1,26 +1,16 @@
-<?php
-session_start();
-
-// Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
 <body>
-
 <!-- le code php -->
-<?php
+ <?php
 try{
     $bdd = new PDO('mysql:host=localhost;dbname=restaurant', 'koceila', '123456789') or die(print_r($bdd->errorInfo()));
     $bdd->exec('SET NAMES utf8');
@@ -30,73 +20,49 @@ try{
     die('Erreur:'.$e->getMessage());
     } ?>
 
-    <div class="container-fluid">
-        <div class="row" style="background-color:#ffffff;">
-            <div class="col-sm-3">
-                <nav class="navbar navbar-expand-lg bg-white">
-                    <div class="container-fluid">
-                        <img src="logo/logooo2.png" alt="" width="40" height="40">
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+    <header>
+        <!-- la navbar -->
+        <div class="container-fluid">
+            <div class="row " style="background-color:#ffffff;">
+                <div class="col-sm-4 " >
+                    <nav class="navbar navbar-expand-lg bg-white">
+                        <div class="container-fluid">
+                            <img src="logo/logooo2.png" alt="" width="40" height="40">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
+                          </button>
+                          <div class="collapse navbar-collapse" id="navbarNav">
+                          <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="accueil.php">Accueil</a>
+                                    <a class="nav-link " href="accvisiteur.php">Accueil</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link " href="produits.php">Produits</a>
+                                    <a class="nav-link active " href="produitvisit.php">Produits</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="panier.php">Panier</a>
+                                    <a class="nav-link" href="Panier.php">Panier</a>
                                 </li>
                             </ul>
+                          </div>
                         </div>
-                    </div>
-                </nav>
-            </div>
-            <div class="col-sm-5">
-                <a href="accueil.php"><img src="logo/logooo.png" alt="" class="img-fluid pt-3" ></a>
-            </div>
-            <div class="col-sm-2 d-flex justify-content-end">
-                <p class="me-3 mt-3">Bienvenue, <?php echo ($_SESSION['nom']); ?>!</p>
-            </div>
-            <div class="col-sm-2 d-flex justify-content-end mt-2">
-                <a href="logout.php"><button type="button" class="btn btn-outline-danger text-center ">Déconnexion</button></a>
-
-
+                      </nav>
+                </div>
+                <div class="col-sm-5 "><a href="accvisiteur.php"><img src="logo/logooo.png" alt="" class="img-fluid pt-3"  ></a></div>
+                <div  id="con" class="col-sm-3 d-flex justify-content-end"><a href="login.php" style="text-decoration: none;"><button type="button" class="btn btn-outline-primary ">Connexion</button></a></div>
 
             </div>
         </div>
-    </div>
+        <br>
     <br>
-    <!-- la photo de couverture  -->
-    <div class="container-fluid" >
-            <div class="row" >
-                
-                <div class="image-container">
-                    <img src="photos/arrplan.jpg" alt="Image de fond">
-                    <div class="texte ">    Bleu Blanc Saveur vous invite à une expérience gastronomique raffinée,
-                         alliant tradition et créativité. Dans un cadre élégant, notre chef sublime des produits d'exception pour éveiller vos sens.
-                        Laissez-vous emporter par une cuisine authentique et audacieuse.
-                    </div>
-                    <div class="prog">
-                        Horaires d'ouverture : mardi-dimanche : 11h00-15h00 / 18h30-23h30<br>
-                                              lundi : fermé
-                    </div>
-                </div>
-                  
-            </div>
-           
-         </div>
         <!-- le menue  -->
        <!-- Section du menu -->
 <div id="div2" class="container">
-    <h2 id="menue"><img src="logo/logooo2.png" alt="" width="40" height="40"> Le Menu Du Chef :</h2>
+    <h2 id="menue"><img src="logo/logooo2.png" alt="" width="40" height="40"> Le Menu :</h2>
 
     <?php
     // Récupère les 6 premiers plats de la table 'plat'
-    $req = $bdd->query("SELECT * FROM plat ORDER BY id_plat LIMIT 6");
+    $req = $bdd->query("SELECT * FROM plat ORDER BY id_plat");
     $i = 0;
     while ($data = $req->fetch(PDO::FETCH_OBJ)) { // Boucle sur les résultats
         if ($i % 3 == 0) {
@@ -119,11 +85,7 @@ try{
                 <h5><?php echo $nom_plat; ?></h5>
                 <h5>Prix : <?php echo $prix; ?> €</h5>
                 <div class="card-footer text-center">
-                    <!-- Formulaire avec un champ caché pour transmettre l'ID du plat -->
-                    <form method="POST" action="">
-                        <input type="hidden" name="id_plat" value="<?php echo $id_plat; ?>">
-                        <button type="submit" class="btn btn-primary">Ajouter au panier</button>
-                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -137,31 +99,7 @@ try{
     }
     ?>
 
-    <?php
-    // Gestion de l'ajout au panier (POST)
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Récupère l'ID du plat depuis le formulaire
-        $id = isset($_POST['id_plat']) ? $_POST['id_plat'] : null;
-        $id_client = $_SESSION['id']; // ID du client depuis la session
-        if (!empty($id)) { // Vérifie que l'ID n'est pas vide
-            // Requête préparée pour éviter les injections SQL
-            $req = $bdd->prepare("SELECT * FROM plat WHERE id_plat = :id");
-            $req->execute(['id' => $id]);
-            $data = $req->fetch(PDO::FETCH_OBJ);
-            if ($data) { // Vérifie si le plat existe
-                $id_plat = $data->id_plat;
-                $nom_plat = $data->nom_plat;
-                $prix = $data->prix;
-                $image = $data->image_plat;
-                $imageData = base64_encode($image);
-                // inserer dans la table panier
-                $req = $bdd->query("INSERT INTO panier (id_plat, id_client) 
-                                            VALUES ('$id_plat', '$id_client')");
-
-            } 
-        } 
-    }
-    ?>
+    
 </div>
         <br>
         <!-- le caroussel -->

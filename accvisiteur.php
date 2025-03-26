@@ -33,22 +33,22 @@ try{
                             <span class="navbar-toggler-icon"></span>
                           </button>
                           <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav">
-                              <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Accueil</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="#">Produits</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="#">Panier</a>
-                              </li>
+                          <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="accvisiteur.php">Accueil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " href="produitvisit.php">Produits</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Panier.php">Panier</a>
+                                </li>
                             </ul>
                           </div>
                         </div>
                       </nav>
                 </div>
-                <div class="col-sm-5 "><a href="accvisiteur.html"><img src="logo/logooo.png" alt="" class="img-fluid pt-3"  ></a></div>
+                <div class="col-sm-5 "><a href="accvisiteur.php"><img src="logo/logooo.png" alt="" class="img-fluid pt-3"  ></a></div>
                 <div  id="con" class="col-sm-3 d-flex justify-content-end"><a href="login.php" style="text-decoration: none;"><button type="button" class="btn btn-outline-primary ">Connexion</button></a></div>
 
             </div>
@@ -78,7 +78,7 @@ try{
                 <h2 id="menue"> <img src="logo/logooo2.png" alt="" width="40" height="40"> Le Menu Du Chef :</h2>
 
                 <?php
-                $req = $bdd->query("SELECT * FROM plat ORDER BY id_plat LIMIT 6");
+                $req = $bdd->query("SELECT * FROM plat ORDER BY id_plat ");
                 $i = 0;
                 for ($i = 0; $i <= 5; $i++) {
                   $data = $req->fetch(PDO::FETCH_OBJ);
@@ -87,7 +87,7 @@ try{
                         echo '</div>';}
                         echo '<div class="row p-5">';
                     }
-
+                    $id_plat = $data->id_plat;
                     $nom_plat = $data->nom_plat;
                     $prix = $data->prix;
                     $image = $data->image_plat;
@@ -101,6 +101,7 @@ try{
                                 <h5><?php echo $nom_plat; ?></h5>
                                 <h5>Prix : <?php echo $prix; ?> €</h5>
                             </div>
+                            
                         </div>
                     </div>
 

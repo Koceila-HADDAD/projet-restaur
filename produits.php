@@ -13,7 +13,7 @@ if (!isset($_SESSION['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
+    <title>Nos Produits</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -40,12 +40,12 @@ try{
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
+                            <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="accueil.php">Accueil</a>
+                                    <a class="nav-link " href="accueil.php">Accueil</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link " href="produits.php">Produits</a>
+                                    <a class="nav-link active" href="produits.php">Produits</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="panier.php">Panier</a>
@@ -56,7 +56,7 @@ try{
                 </nav>
             </div>
             <div class="col-sm-5">
-                <a href="accueil.php"><img src="logo/logooo.png" alt="" class="img-fluid pt-3" ></a>
+                <a href="#"><img src="logo/logooo.png" alt="" class="img-fluid pt-3" ></a>
             </div>
             <div class="col-sm-2 d-flex justify-content-end">
                 <p class="me-3 mt-3">Bienvenue, <?php echo ($_SESSION['nom']); ?>!</p>
@@ -70,33 +70,14 @@ try{
         </div>
     </div>
     <br>
-    <!-- la photo de couverture  -->
-    <div class="container-fluid" >
-            <div class="row" >
-                
-                <div class="image-container">
-                    <img src="photos/arrplan.jpg" alt="Image de fond">
-                    <div class="texte ">    Bleu Blanc Saveur vous invite à une expérience gastronomique raffinée,
-                         alliant tradition et créativité. Dans un cadre élégant, notre chef sublime des produits d'exception pour éveiller vos sens.
-                        Laissez-vous emporter par une cuisine authentique et audacieuse.
-                    </div>
-                    <div class="prog">
-                        Horaires d'ouverture : mardi-dimanche : 11h00-15h00 / 18h30-23h30<br>
-                                              lundi : fermé
-                    </div>
-                </div>
-                  
-            </div>
-           
-         </div>
         <!-- le menue  -->
        <!-- Section du menu -->
 <div id="div2" class="container">
-    <h2 id="menue"><img src="logo/logooo2.png" alt="" width="40" height="40"> Le Menu Du Chef :</h2>
+    <h2 id="menue"><img src="logo/logooo2.png" alt="" width="40" height="40"> Le Menu :</h2>
 
     <?php
     // Récupère les 6 premiers plats de la table 'plat'
-    $req = $bdd->query("SELECT * FROM plat ORDER BY id_plat LIMIT 6");
+    $req = $bdd->query("SELECT * FROM plat ORDER BY id_plat");
     $i = 0;
     while ($data = $req->fetch(PDO::FETCH_OBJ)) { // Boucle sur les résultats
         if ($i % 3 == 0) {

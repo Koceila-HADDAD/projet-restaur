@@ -36,13 +36,13 @@ try{
                           <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
                               <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Acceuil</a>
+                                <a class="nav-link active" aria-current="page" href="accvisiteur.php">Acceuil</a>
                               </li>
                               <li class="nav-item">
-                                <a class="nav-link" href="#">Produits</a>
+                                <a class="nav-link" href="produitvisit.php">Produits</a>
                               </li>
                               <li class="nav-item">
-                                <a class="nav-link" href="#">Panier</a>
+                                <a class="nav-link" href="Panier.php">Panier</a>
                               </li>
                             </ul>
                           </div>
