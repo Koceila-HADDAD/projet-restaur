@@ -202,6 +202,76 @@ try{
                         
             <br>
         </div>
+
+        <!-- les commentaires  -->
+        <div class="container"><h2 id="menue"> <img src="logo/logooo2.png" alt="" width="40" height="40"> Commentaires :</h2></div>
+
+        <div class="container d-flex">
+            <div class="container w-50 px-5">
+                <?php
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        $text = $_POST['commentaire'];
+                        $utilisateur=$_SESSION['id'];
+                        $maintenant = new DateTime("now", new DateTimeZone("Europe/Paris"));                       
+                        $req = $bdd->prepare("INSERT INTO commentaire (texte, id_client, date_com) VALUES (:texte, :id_client, :date_com)");
+                    $req->execute([
+                        ':texte' => $text,
+                        ':id_client' => $utilisateur,
+                        ':date_com' => $maintenant->format("Y-m-d H:i:s"),]);
+                    
+                    
+                        }
+                ?>
+                <form method="POST" action="">
+                <div class="row">
+                    
+                    <textarea class="form-control" id="commentaire" name="commentaire" rows="5"></textarea>
+                    
+                </div>
+                <div class="row d-flex justify-content-center mt-2">
+                <button type="submit" class="btn btn-primary w-50">Envoyer</button>
+
+
+                </div>
+                </form>
+            </div>
+          <div class="container w-50 border-start ">
+                <?php
+
+                        $req = $bdd->query("SELECT * FROM commentaire");
+                        while ($data = $req->fetch(PDO::FETCH_OBJ)) {
+                        $id_cl = $data->id_client;
+                        $id_com = $data->id_commentaire;
+                        $text = $data->texte;
+                    
+                    
+                    
+                ?>
+
+                <div class="row px-3">
+                    
+                        <?php 
+                            $req2 = $bdd->query("SELECT nom_client FROM client WHERE id_client=$id_cl");
+                            $data2 = $req2->fetch(PDO::FETCH_OBJ);
+                            $nom = $data2->nom_client;
+                            echo '<p  style="font-weight: bold !important;">' . htmlspecialchars($nom, ENT_QUOTES, 'UTF-8') . '</p>';
+                        ?>
+                </div>
+                <div class="row px-5">
+                        <?php echo $text;  ?>
+
+                        
+                </div>
+
+
+              <hr>
+              <?php }?>
+            
+            </div>
+
+
+
+        </div>
         <br>
         <!-- le footer -->
         <div id="div3" class="container-fluid">

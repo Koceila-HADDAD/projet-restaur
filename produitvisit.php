@@ -84,9 +84,7 @@ try{
             <div class="card-body">
                 <h5><?php echo $nom_plat; ?></h5>
                 <h5>Prix : <?php echo $prix; ?> €</h5>
-                <div class="card-footer text-center">
-                    
-                </div>
+                
             </div>
         </div>
     </div>
@@ -95,7 +93,7 @@ try{
         $i++;
     }
     if ($i > 0) {
-        echo '</div>'; // Ferme la dernière ligne
+        echo '</div>'; 
     }
     ?>
 
@@ -141,6 +139,7 @@ try{
             <br>
         </div>
         <br>
+
         <!-- le footer -->
         <div id="div3" class="container-fluid">
             <footer>

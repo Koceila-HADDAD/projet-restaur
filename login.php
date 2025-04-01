@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </nav>
                 </div>
-                <div class="col-sm-5"><a href="accvisiteur.html"><img src="logo/logooo.png" alt="" class="img-fluid"></a></div>
+                <div class="col-sm-5"><a href="accvisiteur.php"><img src="logo/logooo.png" alt="" class="img-fluid"></a></div>
             </div>
         </div>
         <br>
