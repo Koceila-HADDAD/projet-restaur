@@ -217,7 +217,7 @@ try{
                     $req->execute([
                         ':texte' => $text,
                         ':id_client' => $utilisateur,
-                        ':date_com' => $maintenant->format("Y-m-d H:i:s"),]);
+                        ':date_com' => $maintenant->format("Y-m-d H:i"),]);
                     
                     
                         }
@@ -235,38 +235,59 @@ try{
                 </div>
                 </form>
             </div>
-          <div class="container w-50 border-start ">
+         <div class="container w-50 border-start ">
                 <?php
+                    // Pagination
+                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    $comments_per_page = 3;
+                    $offset = ($page - 1) * $comments_per_page;
 
-                        $req = $bdd->query("SELECT * FROM commentaire");
-                        while ($data = $req->fetch(PDO::FETCH_OBJ)) {
+                    // Compter le total des commentaires
+                    $total_comments_query = $bdd->query("SELECT COUNT(*) as total FROM commentaire");
+                    $total_comments = $total_comments_query->fetch(PDO::FETCH_OBJ)->total;
+                    $total_pages = ceil($total_comments / $comments_per_page);
+
+                    // Récupérer les 5 commentaires de la page actuelle
+                    $req = $bdd->query("SELECT * FROM commentaire ORDER BY date_com DESC LIMIT $offset, $comments_per_page");
+                    while ($data = $req->fetch(PDO::FETCH_OBJ)) {
                         $id_cl = $data->id_client;
-                        $id_com = $data->id_commentaire;
                         $text = $data->texte;
-                    
-                    
-                    
+                        $date_com = $data->date_com;
                 ?>
-
-                <div class="row px-3">
-                    
+                <div class="row">
+                    <div class="col-6">
                         <?php 
-                            $req2 = $bdd->query("SELECT nom_client FROM client WHERE id_client=$id_cl");
-                            $data2 = $req2->fetch(PDO::FETCH_OBJ);
-                            $nom = $data2->nom_client;
-                            echo '<p  style="font-weight: bold !important;">' . htmlspecialchars($nom, ENT_QUOTES, 'UTF-8') . '</p>';
+                        $req2 = $bdd->query("SELECT nom_client FROM client WHERE id_client=$id_cl");
+                        $data2 = $req2->fetch(PDO::FETCH_OBJ);
+                        $nom = $data2->nom_client;
+                        echo '<p style="font-weight: bold !important;">' . htmlspecialchars($nom, ENT_QUOTES, 'UTF-8') . '</p>';
+                        ?>
+                    </div>
+                    <div class="col-6">
+                        <?php
+                        echo '<p class="text-end" style="font-weight: bold !important;">' . htmlspecialchars($date_com, ENT_QUOTES, 'UTF-8') . '</p>';
+                        ?>
+                    </div>
+                </div>
+                <div class="row px-5 py-2 m-2 bg-light border">
+                    <?php echo $text;  ?>                    
+                </div>
+                <hr>
+                <?php }?>
+                <!-- Liens de pagination -->
+                <div class="row justify-content-center mt-3">
+                        <?php
+                        if ($page > 1) {
+                            $prev_page = $page - 1;
+                            echo "<a href='?page=$prev_page' class='btn btn-outline-primary mx-2'>Précédent</a>";
+                        }
+                        if ($page < $total_pages) {
+                            $next_page = $page + 1;
+                            echo "<a href='?page=$next_page' class='btn btn-primary mx-2'>Afficher la suite</a>";
+                        }
                         ?>
                 </div>
-                <div class="row px-5">
-                        <?php echo $text;  ?>
-
-                        
-                </div>
-
-
-              <hr>
-              <?php }?>
-            
+                    
             </div>
 
 

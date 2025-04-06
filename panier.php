@@ -38,11 +38,15 @@ if (isset($_POST['valider_commande'])) {
         'type_livraison' => $type_livraison,
         'adrs_livraison' => $adresse_livraison,
         'prix_totale' => $prix_totale
+        
+
     ]);
+    $_SESSION['total'] = $prix_totale;
+   
 
     // Optionnel : Vider le panier après validation
-    $req_vider_panier = $bdd->prepare("DELETE FROM panier WHERE id_client = :id_client");
-    $req_vider_panier->execute(['id_client' => $id_client]);
+    //$req_vider_panier = $bdd->prepare("DELETE FROM panier WHERE id_client = :id_client");
+    //$req_vider_panier->execute(['id_client' => $id_client]);
 
     // Rediriger vers une page de confirmation ou recharger
     header("Location: confirmation.php"); // Créez une page confirmation.php si besoin
@@ -113,11 +117,13 @@ $nombre_plats = $result['nombre_plats'];
         <div class="container w-50">
             <?php
             $req = $bdd->prepare("SELECT * FROM panier WHERE id_client = :id_client");
+           
             $req->execute(['id_client' => $id_client]);
             $totale = 0;
             while ($data = $req->fetch(PDO::FETCH_OBJ)) {
                 $id_panier = $data->id_panier;
                 $id_plat = $data->id_plat;
+                $panier_items[] = $data;
                 $req2 = $bdd->prepare("SELECT * FROM plat WHERE id_plat = :id_plat");
                 $req2->execute(['id_plat' => $id_plat]);
                 $plat_data = $req2->fetch(PDO::FETCH_OBJ);
@@ -127,6 +133,12 @@ $nombre_plats = $result['nombre_plats'];
                     $image = $plat_data->image_plat;
                     $imageData = base64_encode($image);
                     $totale = $totale + $prix;
+                   
+                    
+
+                    
+
+                    
             ?>
                     <div class="row">
                         <div class="col-md-4 ps-2">
@@ -144,7 +156,11 @@ $nombre_plats = $result['nombre_plats'];
                     </div>
             <?php
                 }
+                
             }
+
+            
+            
             ?>
         </div>
         <div class="container w-50">

@@ -15,6 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user) {
             $_SESSION['id'] = $user['id_client']; 
             $_SESSION['nom'] = $user['nom_client'];
+            $_SESSION['MOHAND'] = "tazmalt";
             header("Location: accueil.php");
             exit();
         } else {

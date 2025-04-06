@@ -1,9 +1,26 @@
+<?php
+session_start();
+
+// Vérifier si l'utilisateur est connecté
+if (!isset($_SESSION['id'])) {
+    header("Location: login.php");
+    exit();
+}
+try {
+    $bdd = new PDO('mysql:host=localhost;dbname=restaurant', 'koceila', '123456789');
+    $bdd->exec('SET NAMES utf8');
+    $id_client=$_SESSION['id'];
+} catch (Exception $e) {
+    die('Erreur:' . $e->getMessage());
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Confirmation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -18,6 +35,7 @@
 <body>
     <!-- Connexion à la base de données -->
     <?php
+   
     try {
         $bdd = new PDO('mysql:host=localhost;dbname=restaurant', 'koceila', '123456789') or die(print_r($bdd->errorInfo()));
         $bdd->exec('SET NAMES utf8');
@@ -31,33 +49,37 @@
 
         <!-- Traitement du formulaire -->
         <?php
-        session_start();
+      
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nom = htmlspecialchars($_POST['nom']);
             $prenom = htmlspecialchars($_POST['prenom']);
-            $type_livraison = htmlspecialchars($_POST['type_livraison']);
-            $commentaire = htmlspecialchars($_POST['commentaire'] ?? '');
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+            $_SESSION['email']=$email;
             $carte_bancaire = htmlspecialchars($_POST['carte_bancaire']);
-
+            $_SESSION['carte']=$carte_bancaire;
+            $id_client = $_SESSION['id'];
+            
             // Validation supplémentaire (exemple)
             if (!preg_match('/^\d{16}$/', $carte_bancaire)) {
                 echo '<div class="alert alert-danger">Numéro de carte invalide. Veuillez entrer 16 chiffres.</div>';
             } else {
                 // Insertion dans la table paiements
-                $req = $bdd->prepare("INSERT INTO paiements (nom, prenom, type_livraison, commentaire, email, carte_bancaire) VALUES (:nom, :prenom, :type_livraison, :commentaire, :email, :carte_bancaire)");
+                $req = $bdd->prepare("INSERT INTO paiements (nom_paiement, prenom_paiement, email_paiement, carte_bancaire, id_client) VALUES (:nom, :prenom, :email, :carte_bancaire, :id_client)");
                 $req->execute([
                     'nom' => $nom,
                     'prenom' => $prenom,
-                    'type_livraison' => $type_livraison,
-                    'commentaire' => $commentaire,
                     'email' => $email,
-                    'carte_bancaire' => $carte_bancaire
+                    'carte_bancaire' => $carte_bancaire,
+                    'id_client' => $id_client,
                 ]);
 
+                
+                    include 'mail.php';
                 // Redirection après succès
-                header("Location: confirmation.php");
+
+                
+                header("Location: accueil.php");
                 exit();
             }
         }
@@ -111,10 +133,10 @@
 
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label for="carte_bancaire" class="form-label">Code sécurité</label>
+                    <label for="code_securite" class="form-label">Code sécurité</label>
                 </div>
                 <div class="col-md-2">
-                    <input type="number" class="form-control" id="carte_bancaire" name="carte_bancaire" placeholder="Entrez le numéro de votre carte (16 chiffres)" pattern="\d{16}" maxlength="16" required>
+                    <input type="number" class="form-control" id="code_securite" name="code_securite" placeholder="Entrez le numéro de votre code_securite (3 chiffres)" pattern="\d{3}" maxlength="3" required>
 
                 </div>
                     <div class="col-md-3 text-end">
@@ -123,7 +145,7 @@
 
                     </div>
                 <div class="col-md-3">
-                    <input type="month" class="form-control" id="exp" name="carte_bancaire"  pattern="\d{16}" maxlength="16" required>
+                    <input type="month" class="form-control" id="exp" name="exp"  required>
 
                 </div>
             </div>
@@ -143,6 +165,7 @@
             <div class="row mb-3">
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-success w-45">Payer</button>
+
                 </div>
             </div>
         </form>
