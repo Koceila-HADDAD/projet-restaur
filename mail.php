@@ -24,7 +24,7 @@ try {
 $id_client = $_SESSION['id'];
 $email_cl = $_SESSION['email'];
 $carte = $_SESSION['carte'];
-$facture = $_SESSION['cpt'];
+
 $derniers_4_chiffres = substr($carte, -4);
 $totalmail = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////:
@@ -77,7 +77,7 @@ try {
     // Construire le corps de l'email
     $body = '
     <h2 style="color: #003087;">Bleu Blanc Saveur</h2>
-    <p>Restaurant Français - 123 Rue des Saveurs, 75001 Paris</p>
+    <p>Restaurant Français - 30 Rue Esquirol 75013 Paris</p>
     <hr>
     <h3>FACTURE</h3>
     <p><strong>Date :</strong> ' . $date->format('d/m/Y H:i') . '</p>
@@ -88,18 +88,36 @@ try {
                 <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
                 <th style="padding: 8px; border: 1px solid #ddd;">Quantité</th>
                 <th style="padding: 8px; border: 1px solid #ddd;">Prix unitaire</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Prix totale</th>
+
+
+
             </tr>
         </thead>
         <tbody>';
  
     // Récupérer les éléments du panier
-    $req = $bdd->prepare("SELECT * FROM panier WHERE id_client = :id_client");
+    $req = $bdd->prepare("SELECT id_panier,id_plat,id_client,quantite FROM panier WHERE id_client = :id_client  GROUP BY id_plat ");
     $req->execute(['id_client' => $id_client]);
     $items_html = '';
     $totale = 0;
 
     while ($data = $req->fetch(PDO::FETCH_OBJ)) {
         $id_plat = $data->id_plat;
+        $quantite = $data->quantite;
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    
+    $req_count = $bdd->query("SELECT COUNT(*) as nombre_rep FROM panier WHERE id_client = $id_client AND id_plat = $id_plat ");
+                
+    $result_rep = $req_count->fetch(PDO::FETCH_ASSOC);
+    $nombre_rep = $result_rep['nombre_rep'];
+    $quantite=$quantite +  $nombre_rep - 1; 
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
         $req2 = $bdd->prepare("SELECT * FROM plat WHERE id_plat = :id_plat");
         $req2->execute(['id_plat' => $id_plat]);
         $plat_data = $req2->fetch(PDO::FETCH_OBJ);
@@ -113,8 +131,10 @@ try {
             $items_html .= '
             <tr>
                 <td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($nom_plat) . '</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">1</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($quantite) .'</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">' . number_format($prix_plat, 2) . ' €</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">' . number_format($prix_plat*$quantite) . ' €</td>
+
             </tr>';
         
     }

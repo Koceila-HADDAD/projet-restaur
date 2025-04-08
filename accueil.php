@@ -155,8 +155,8 @@ try{
                 $image = $data->image_plat;
                 $imageData = base64_encode($image);
                 // inserer dans la table panier
-                $req = $bdd->query("INSERT INTO panier (id_plat, id_client) 
-                                            VALUES ('$id_plat', '$id_client')");
+                $req = $bdd->query("INSERT INTO panier (id_plat, id_client,quantite) 
+                                            VALUES ('$id_plat', '$id_client',1)");
 
             } 
         } 

@@ -24,6 +24,7 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    
     <style>
         .dropdown-menu {
             top: 100% !important;
@@ -150,18 +151,22 @@ try {
                 </div>
             </div>
             <div class="row mb-3">
+                <div class="mb-3 position-relative">
                             <label for="adresse" class="form-label">Adresse</label>
+
+
                             <input type="text" class="form-control" id="adresse" name="adresse_livraison" placeholder="Entrez votre adresse" autocomplete="off">
                             <div class="dropdown">
                                 <ul class="dropdown-menu w-100" id="suggestions" style="max-height: 100px; overflow-y: auto;"></ul>
-                            </div>
-            </div>
                 
+                            </div>
+                </div>
+                <br><br><br>
             
 
            
-
-            <!-- Bouton Payer -->
+            </div>
+             <!-- Bouton Payer -->
             <div class="row mb-3">
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-success w-45">Payer</button>

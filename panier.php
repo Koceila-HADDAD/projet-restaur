@@ -18,12 +18,38 @@ $id_client = $_SESSION['id'];
 
 // Gestion de la suppression
 if (isset($_GET['supprimer']) && is_numeric($_GET['supprimer'])) {
-    $id_panier = $_GET['supprimer'];
-    $req_suppr = $bdd->prepare("DELETE FROM panier WHERE id_panier = :id_panier AND id_client = :id_client");
-    $req_suppr->execute(['id_panier' => $id_panier, 'id_client' => $id_client]);
+    $id_plat = $_GET['supprimer'];
+    $req_suppr = $bdd->prepare("DELETE FROM panier WHERE id_plat = :id_plat AND id_client = :id_client");
+    $req_suppr->execute(['id_plat' => $id_plat, 'id_client' => $id_client]);
     header("Location: Panier.php");
     exit();
 }
+ // Gestion des ajouts 
+        if (isset($_GET['ajouter']) && is_numeric($_GET['ajouter'])) {
+            $id_panier = $_GET['ajouter'];
+        
+        $req_ajout = $bdd->prepare("UPDATE panier SET quantite = quantite + 1 WHERE id_panier = :id_panier AND id_client = :id_client");
+            $req_ajout->execute(['id_panier' => $id_panier, 'id_client' => $id_client]);
+            header("Location: Panier.php");
+            exit();}
+ // Gestion de retirer
+    if (isset($_GET['retirer']) && is_numeric($_GET['retirer'])) {
+        $id_panier = $_GET['retirer'];
+
+    $req_ret = $bdd->prepare("UPDATE panier SET quantite = quantite - 1 WHERE id_panier = :id_panier AND id_client = :id_client");
+        $req_ret->execute(['id_panier' => $id_panier, 'id_client' => $id_client]);
+        header("Location: Panier.php");
+        
+        $req_verif = $bdd->query("SELECT  quantite FROM panier WHERE id_panier = $id_panier AND id_client = $id_client");
+        $result = $req_verif->fetch(PDO::FETCH_ASSOC);
+        $quantite = $result['quantite'];
+    if ($quantite==0){
+        $req_vider_panier = $bdd->query("DELETE FROM panier WHERE id_panier = $id_panier AND id_client = $id_client");
+
+  
+    }
+    exit();
+    }
 
 // Gestion de la validation de la commande
 if (isset($_POST['valider_commande'])) {
@@ -47,9 +73,7 @@ if (isset($_POST['valider_commande'])) {
     // Optionnel : Vider le panier après validation
     //$req_vider_panier = $bdd->prepare("DELETE FROM panier WHERE id_client = :id_client");
     //$req_vider_panier->execute(['id_client' => $id_client]);
-
-    // Rediriger vers une page de confirmation ou recharger
-    header("Location: confirmation.php"); // Créez une page confirmation.php si besoin
+    header("Location: confirmation.php"); 
     exit();
 }
 
@@ -116,14 +140,27 @@ $nombre_plats = $result['nombre_plats'];
     <div class="container d-flex mb-5">
         <div class="container w-50">
             <?php
-            $req = $bdd->prepare("SELECT * FROM panier WHERE id_client = :id_client");
+            $req = $bdd->prepare("SELECT id_panier,id_plat,id_client,quantite FROM panier WHERE id_client = :id_client GROUP BY id_plat" );
            
             $req->execute(['id_client' => $id_client]);
             $totale = 0;
             while ($data = $req->fetch(PDO::FETCH_OBJ)) {
                 $id_panier = $data->id_panier;
                 $id_plat = $data->id_plat;
+                $quantite = $data->quantite;
+
                 $panier_items[] = $data;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                
+            $req_count = $bdd->query("SELECT COUNT(*) as nombre_rep FROM panier WHERE id_client = $id_client AND id_plat = $id_plat ");
+            
+            $result_rep = $req_count->fetch(PDO::FETCH_ASSOC);
+            $nombre_rep = $result_rep['nombre_rep'];
+            $quantite=$quantite +  $nombre_rep - 1; 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
                 $req2 = $bdd->prepare("SELECT * FROM plat WHERE id_plat = :id_plat");
                 $req2->execute(['id_plat' => $id_plat]);
                 $plat_data = $req2->fetch(PDO::FETCH_OBJ);
@@ -132,7 +169,7 @@ $nombre_plats = $result['nombre_plats'];
                     $prix = $plat_data->prix;
                     $image = $plat_data->image_plat;
                     $imageData = base64_encode($image);
-                    $totale = $totale + $prix;
+                    $totale = $totale + $prix*$quantite;
                    
                     
 
@@ -146,10 +183,16 @@ $nombre_plats = $result['nombre_plats'];
                         </div>
                         <div class="col-md-8 border-end">
                             <div class="row"><h5><?php echo htmlspecialchars($nom_plat); ?></h5></div>
-                            <div class="row"><h5>Prix : <?php echo htmlspecialchars($prix); ?> €</h5></div>
+                            <div class="row"><h5>Prix : <?php echo htmlspecialchars($prix * $quantite); ?> €</h5></div>
+                            <div class="row"><h5>Quantité : <?php echo htmlspecialchars($quantite); ?></h5></div>
+
                             <div class="row">
                                 <div class="col">
-                                    <a href="Panier.php?supprimer=<?php echo $id_panier; ?>" class="btn btn-danger btn-sm mt-2" onclick="return confirm('Voulez-vous vraiment supprimer ce plat du panier ?');"><i class="bi bi-trash"></i></a>
+                                    <a href="Panier.php?supprimer=<?php echo $id_plat; ?>" class="btn btn-danger btn-sm mt-2" onclick="return confirm('Voulez-vous vraiment supprimer ce plat du panier ?');"><i class="bi bi-trash"></i></a>
+                                    <a href="Panier.php?ajouter=<?php echo $id_panier; ?>" class="btn btn-primary btn-sm mt-2" ><i class="bi bi-plus"></i></a>
+                                    <a href="Panier.php?retirer=<?php echo $id_panier; ?>" class="btn btn-primary btn-sm mt-2" ><i class="bi bi-dash"></i></a>
+
+
                                 </div>
                             </div>
                         </div>
@@ -242,4 +285,4 @@ $nombre_plats = $result['nombre_plats'];
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="adresse.js"></script>
 </body>
-</html>
+</html>    
