@@ -24,13 +24,24 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" href="logo/favicon.ico">
     
     <style>
-        .dropdown-menu {
-            top: 100% !important;
-            transform: translateY(0) !important;
-            margin-top: 0.5rem;
+        .position-relative {
+            position: relative;
         }
+        .custom-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem); /* Juste en dessous de l'input */
+            width: 100%;
+            display: none; /* Caché par défaut */
+            border-radius: 0.25rem;
+            overflow-y: auto;
+            max-height: 100px;
+        }
+        .custom-dropdown.show {
+            display: block !important; /* Affiche quand actif */
+        }   
     </style>
 </head>
 <body>
@@ -151,20 +162,15 @@ try {
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="mb-3 position-relative">
-                            <label for="adresse" class="form-label">Adresse</label>
-
-
-                            <input type="text" class="form-control" id="adresse" name="adresse_livraison" placeholder="Entrez votre adresse" autocomplete="off">
-                            <div class="dropdown">
-                                <ul class="dropdown-menu w-100" id="suggestions" style="max-height: 100px; overflow-y: auto;"></ul>
-                
-                            </div>
+                <div class="col-md-4">
+                    <label for="adresse" class="form-label">Adresse</label>
                 </div>
-                <br><br><br>
-            
-
-           
+                <div class="col-md-8">
+                    <div class="position-relative">
+                        <input type="text" class="form-control" id="adresse" name="adresse_livraison" placeholder="Entrez votre adresse" autocomplete="off">
+                        <ul class="dropdown-menu custom-dropdown" id="suggestions"></ul>
+                    </div>
+                </div>
             </div>
              <!-- Bouton Payer -->
             <div class="row mb-3">
@@ -173,12 +179,80 @@ try {
 
                 </div>
             </div>
+           
         </form>
     </div>
+   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="adresse.js"></script>
+    <script>
+        $(document).ready(function() {
+            let timeoutId;
+            const $input = $('#adresse');
+            const $suggestions = $('#suggestions');
 
+            $input.on('input', function() {
+                clearTimeout(timeoutId);
+                const query = $(this).val();
+
+                if (query.length < 3) {
+                    $suggestions.empty().removeClass('show');
+                    return;
+                }
+
+                timeoutId = setTimeout(function() {
+                    $.ajax({
+                        url: 'https://api-adresse.data.gouv.fr/search/',
+                        data: { q: query, limit: 5 },
+                        success: function(data) {
+                            $suggestions.empty();
+                            if (data.features.length > 0) {
+                                data.features.forEach(function(feature) {
+                                    const adresse = feature.properties.label;
+                                    const $item = $('<li>')
+                                        .append($('<a>')
+                                            .addClass('dropdown-item')
+                                            .text(adresse)
+                                            .attr('href', '#')
+                                            .data('adresse', feature.properties)
+                                        );
+                                    $suggestions.append($item);
+                                });
+                                $suggestions.addClass('show');
+                            } else {
+                                $suggestions.removeClass('show');
+                            }
+                        },
+                        error: function() {
+                            $suggestions.removeClass('show');
+                        }
+                    });
+                }, 300);
+            });
+
+            $suggestions.on('click', '.dropdown-item', function(e) {
+                e.preventDefault();
+                const adresseData = $(this).data('adresse');
+                $input.val(adresseData.label);
+                $suggestions.removeClass('show');
+                console.log('Adresse complète:', adresseData.label);
+                console.log('Code postal:', adresseData.postcode);
+                console.log('Ville:', adresseData.city);
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#adresse, #suggestions').length) {
+                    $suggestions.removeClass('show');
+                }
+            });
+
+            $input.on('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    // Autocomplétion
     let timeoutId;
     const $input = $('#adresse');
     const $suggestions = $('#suggestions');
@@ -8,8 +7,8 @@ $(document).ready(function() {
         clearTimeout(timeoutId);
         const query = $(this).val();
 
-        if (query.length < 3 || $input.prop('disabled')) {
-            $suggestions.empty().dropdown('hide');
+        if (query.length < 3) {
+            $suggestions.empty().removeClass('show');
             return;
         }
 
@@ -31,13 +30,13 @@ $(document).ready(function() {
                                 );
                             $suggestions.append($item);
                         });
-                        $suggestions.dropdown('show');
+                        $suggestions.addClass('show');
                     } else {
-                        $suggestions.dropdown('hide');
+                        $suggestions.removeClass('show');
                     }
                 },
                 error: function() {
-                    $suggestions.dropdown('hide');
+                    $suggestions.removeClass('show');
                 }
             });
         }, 300);
@@ -47,7 +46,7 @@ $(document).ready(function() {
         e.preventDefault();
         const adresseData = $(this).data('adresse');
         $input.val(adresseData.label);
-        $suggestions.dropdown('hide');
+        $suggestions.removeClass('show');
         console.log('Adresse complète:', adresseData.label);
         console.log('Code postal:', adresseData.postcode);
         console.log('Ville:', adresseData.city);
@@ -55,7 +54,7 @@ $(document).ready(function() {
 
     $(document).on('click', function(e) {
         if (!$(e.target).closest('#adresse, #suggestions').length) {
-            $suggestions.dropdown('hide');
+            $suggestions.removeClass('show');
         }
     });
 
@@ -64,19 +63,4 @@ $(document).ready(function() {
             e.preventDefault();
         }
     });
-
-    // Désactivation du champ adresse
-    const $typeLivraison = $('#type-livraison');
-    function toggleAdresseInput() {
-        if ($typeLivraison.val() === 'surplace') {
-            $input.prop('disabled', true).val('');
-        } else {
-            $input.prop('disabled', false);
-        }
-    }
-    toggleAdresseInput();
-    $typeLivraison.on('change', function() {
-        toggleAdresseInput();
-    });
 });
-
