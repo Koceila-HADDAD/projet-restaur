@@ -14,345 +14,344 @@ if (!isset($_SESSION['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- le code php -->
-<?php
-try{
-    $bdd = new PDO('mysql:host=localhost;dbname=restaurant', 'koceila', '123456789') or die(print_r($bdd->errorInfo()));
-    $bdd->exec('SET NAMES utf8');
+    <!-- Connexion à la base de données -->
+    <?php
+    try {
+        $bdd = new PDO('mysql:host=localhost;dbname=restaurant;charset=utf8', 'koceila', '123456789');
+        $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (Exception $e) {
+        die('Erreur de connexion à la base de données : ' . $e->getMessage());
     }
-    
-    catch(Exception $e){
-    die('Erreur:'.$e->getMessage());
-    } ?>
+    ?>
 
-    <div class="container-fluid">
-        <div class="row" style="background-color:#ffffff;">
-            <div class="col-sm-3">
-                <nav class="navbar navbar-expand-lg bg-white">
-                    <div class="container-fluid">
-                        <img src="logo/logooo2.png" alt="" width="40" height="40">
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="accueil.php">Accueil</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " href="produits.php">Produits</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="panier.php">Panier</a>
-                                </li>
-                            </ul>
+    <!-- Header -->
+    <header class="py-3">
+        <div class="container-fluid">
+            <div class="row align-items-center bg-white">
+                <div class="col-12 col-sm-3">
+                    <nav class="navbar navbar-expand-lg bg-white">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="accueil.php">
+                                <img src="logo/logooo2.png" alt="Logo" width="40" height="40">
+                            </a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="accueil.php">Accueil</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="produits.php">Produits</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="panier.php">Panier</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="col-12 col-sm-5 text-center">
+                    <a href="accueil.php">
+                        <img src="logo/logooo.png" alt="Logo" class="logo-center img-fluid">
+                    </a>
+                </div>
+                <div class="col-12 col-sm-2 text-center text-sm-end">
+                    <p class="mt-3">Bienvenue, <?php echo htmlspecialchars($_SESSION['nom']); ?>!</p>
+                </div>
+                <div class="col-12 col-sm-2 text-center text-sm-end">
+                    <a href="logout.php">
+                        <button type="button" class="btn btn-outline-danger mt-2 mt-sm-0">Déconnexion</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Image de couverture -->
+    <section class="container-fluid my-4">
+        <div class="row">
+            <div class="image-container">
+                <img src="photos/arrplan.jpg" alt="Image de fond" class="img-fluid d-none d-sm-block">
+                <div class="texte d-none d-sm-block">
+                    Bleu Blanc Saveur vous invite à une expérience gastronomique raffinée, alliant tradition et créativité. Dans un cadre élégant, notre chef sublime des produits d'exception pour éveiller vos sens. Laissez-vous emporter par une cuisine authentique et audacieuse.
+                </div>
+                <div class="prog d-none d-sm-block">
+                    Horaires d'ouverture : mardi-dimanche : 11h00-15h00 / 18h30-23h30<br>
+                    lundi : fermé
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu -->
+    <section class="container my-4">
+        <h2 class="text-center mb-4">
+            <img src="logo/logooo2.png" alt="Logo" width="40" height="40"> Le Menu Du Chef
+        </h2>
+        <?php
+        $req = $bdd->query("SELECT * FROM plat ORDER BY id_plat LIMIT 6");
+        if ($req->rowCount() === 0) {
+            echo '<p class="text-center">Aucun plat disponible pour le moment.</p>';
+        } else {
+            echo '<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">';
+            while ($data = $req->fetch(PDO::FETCH_OBJ)) {
+                $id_plat = $data->id_plat;
+                $nom_plat = htmlspecialchars($data->nom_plat);
+                $prix = htmlspecialchars($data->prix);
+                $imageData = base64_encode($data->image_plat);
+        ?>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" class="card-img-top" alt="<?php echo $nom_plat; ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $nom_plat; ?></h5>
+                            <h5>Prix : <?php echo $prix; ?> €</h5>
+                            <div class="card-footer text-center">
+                                <button class="btn btn-primary" onclick="addToCart(<?php echo $id_plat; ?>)">Ajouter au panier</button>
+                            </div>
                         </div>
                     </div>
-                </nav>
-            </div>
-            <div class="col-sm-5">
-                <a href="accueil.php"><img src="logo/logooo.png" alt="" class="img-fluid pt-3" ></a>
-            </div>
-            <div class="col-sm-2 d-flex justify-content-end">
-                <p class="me-3 mt-3">Bienvenue, <?php echo ($_SESSION['nom']); ?>!</p>
-            </div>
-            <div class="col-sm-2 d-flex justify-content-end mt-2">
-                <a href="logout.php"><button type="button" class="btn btn-outline-danger text-center ">Déconnexion</button></a>
-
-
-
-            </div>
-        </div>
-    </div>
-    <br>
-    <!-- la photo de couverture  -->
-    <div class="container-fluid" >
-            <div class="row" >
-                
-                <div class="image-container">
-                    <img src="photos/arrplan.jpg" alt="Image de fond">
-                    <div class="texte ">    Bleu Blanc Saveur vous invite à une expérience gastronomique raffinée,
-                         alliant tradition et créativité. Dans un cadre élégant, notre chef sublime des produits d'exception pour éveiller vos sens.
-                        Laissez-vous emporter par une cuisine authentique et audacieuse.
-                    </div>
-                    <div class="prog">
-                        Horaires d'ouverture : mardi-dimanche : 11h00-15h00 / 18h30-23h30<br>
-                                              lundi : fermé
-                    </div>
                 </div>
-                  
-            </div>
-           
-         </div>
-        <!-- le menue  -->
-       <!-- Section du menu -->
-<div id="div2" class="container">
-    <h2 id="menue"><img src="logo/logooo2.png" alt="" width="40" height="40"> Le Menu Du Chef :</h2>
-
-    <?php
-    // Récupère les 6 premiers plats de la table 'plat'
-    $req = $bdd->query("SELECT * FROM plat ORDER BY id_plat LIMIT 6");
-    $i = 0;
-    while ($data = $req->fetch(PDO::FETCH_OBJ)) { // Boucle sur les résultats
-        if ($i % 3 == 0) {
-            if ($i > 0) {
-                echo '</div>'; // Ferme la ligne précédente
+        <?php
             }
-            echo '<div class="row p-5">'; // Ouvre une nouvelle ligne toutes les 3 cartes
+            echo '</div>';
         }
-        $id_plat = $data->id_plat; // ID du plat actuel
-        $nom_plat = $data->nom_plat; // Nom du plat actuel
-        $prix = $data->prix; // Prix du plat actuel
-        $image = $data->image_plat; // Image binaire du plat actuel
-        $imageData = base64_encode($image); // Encodage en base64
-    ?>
+        $req->closeCursor();
+        ?>
+    </section>
 
-    <div class="col-sm-4">
-        <div class="card h-100">
-            <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" class="card-img-top h-100" alt="<?php echo $nom_plat; ?>">
-            <div class="card-body">
-                <h5><?php echo $nom_plat; ?></h5>
-                <h5>Prix : <?php echo $prix; ?> €</h5>
-                <div class="card-footer text-center">
-                    <!-- Formulaire avec un champ caché pour transmettre l'ID du plat -->
-                    <form method="POST" action="">
-                        <input type="hidden" name="id_plat" value="<?php echo $id_plat; ?>">
-                        <button type="submit" class="btn btn-primary">Ajouter au panier</button>
-                    </form>
+    <!-- Carrousel -->
+    <section class="container my-4">
+        <h2 class="text-center mb-4">
+            <img src="logo/logooo2.png" alt="Logo" width="40" height="40"> Événements
+        </h2>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner rounded-3">
+                <div class="carousel-item active">
+                    <img src="evenements2/ev1.jpg" class="d-block w-100" alt="Événement 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="evenements2/ev2.jpg" class="d-block w-100" alt="Événement 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="evenements2/ev3.jpg" class="d-block w-100" alt="Événement 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="evenements2/ev4.jpg" class="d-block w-100" alt="Événement 4">
                 </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Précédent</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Suivant</span>
+            </button>
         </div>
-    </div>
+    </section>
 
-    <?php
-        $i++;
-    }
-    if ($i > 0) {
-        echo '</div>'; // Ferme la dernière ligne
-    }
-    ?>
-
-    <?php
-    // Gestion de l'ajout au panier (POST)
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Récupère l'ID du plat depuis le formulaire
-        $id = isset($_POST['id_plat']) ? $_POST['id_plat'] : null;
-        $id_client = $_SESSION['id']; // ID du client depuis la session
-        if (!empty($id)) { // Vérifie que l'ID n'est pas vide
-            // Requête préparée pour éviter les injections SQL
-            $req = $bdd->prepare("SELECT * FROM plat WHERE id_plat = :id");
-            $req->execute(['id' => $id]);
-            $data = $req->fetch(PDO::FETCH_OBJ);
-            if ($data) { // Vérifie si le plat existe
-                $id_plat = $data->id_plat;
-                $nom_plat = $data->nom_plat;
-                $prix = $data->prix;
-                $image = $data->image_plat;
-                $imageData = base64_encode($image);
-                // inserer dans la table panier
-                $req = $bdd->query("INSERT INTO panier (id_plat, id_client,quantite) 
-                                            VALUES ('$id_plat', '$id_client',1)");
-
-            } 
-        } 
-    }
-    ?>
-</div>
-        <br>
-        <!-- le caroussel -->
-        <div id="div2" class="container">
-            <h2 id="menue"> <img src="logo/logooo2.png" alt="" width="40" height="40"> Evenements :</h2>
-            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="height: 50vh;">
-                <!-- Indicateurs -->
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"></button>
-                </div>
-            
-                <div class="carousel-inner h-100 rounded-3">
-                    <div class="carousel-item active h-100 ">
-                        <img src="evenements2/ev1.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Image 1">
-                    </div>
-                    <div class="carousel-item h-100">
-                        <img src="evenements2/ev2.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Image 2">
-                    </div>
-                    <div class="carousel-item h-100">
-                        <img src="evenements2/ev3.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Image 3">
-                    </div>
-                    <div class="carousel-item h-100">
-                        <img src="evenements2/ev4.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Image 4">
-                    </div>
-                </div>
-            
-                <!-- Flèches -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </button>
-            </div>
-                        
-            <br>
-        </div>
-
-        <!-- les commentaires  -->
-        <div class="container"><h2 id="menue"> <img src="logo/logooo2.png" alt="" width="40" height="40"> Commentaires :</h2></div>
-
-        <div class="container d-flex">
-            <div class="container w-50 px-5">
+    <!-- Commentaires -->
+    <section class="container my-4">
+        <h2 class="text-center mb-4">
+            <img src="logo/logooo2.png" alt="Logo" width="40" height="40"> Commentaires
+        </h2>
+        <div class="comment-section">
+            <div class="comment-form w-100">
                 <?php
-                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        $text = $_POST['commentaire'];
-                        $utilisateur=$_SESSION['id'];
-                        $maintenant = new DateTime("now", new DateTimeZone("Europe/Paris"));                       
-                        $req = $bdd->prepare("INSERT INTO commentaire (texte, id_client, date_com) VALUES (:texte, :id_client, :date_com)");
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['commentaire'])) {
+                    $text = $_POST['commentaire'];
+                    $utilisateur = $_SESSION['id'];
+                    $maintenant = new DateTime("now", new DateTimeZone("Europe/Paris"));
+                    $req = $bdd->prepare("INSERT INTO commentaire (texte, id_client, date_com) VALUES (:texte, :id_client, :date_com)");
                     $req->execute([
                         ':texte' => $text,
                         ':id_client' => $utilisateur,
-                        ':date_com' => $maintenant->format("Y-m-d H:i"),]);
-                    
-                    
-                        }
+                        ':date_com' => $maintenant->format("Y-m-d H:i"),
+                    ]);
+                }
                 ?>
                 <form method="POST" action="">
-                <div class="row">
-                    
-                    <textarea class="form-control" id="commentaire" name="commentaire" rows="5"></textarea>
-                    
-                </div>
-                <div class="row d-flex justify-content-center mt-2">
-                <button type="submit" class="btn btn-primary w-50">Envoyer</button>
-
-
-                </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" id="commentaire" name="commentaire" rows="5" placeholder="Votre commentaire..."></textarea>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary w-50">Envoyer</button>
+                    </div>
                 </form>
             </div>
-         <div class="container w-50 border-start ">
+            <div class="comment-list w-100">
                 <?php
-                    // Pagination
-                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                    $comments_per_page = 3;
-                    $offset = ($page - 1) * $comments_per_page;
+                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                $comments_per_page = 3;
+                $offset = ($page - 1) * $comments_per_page;
 
-                    // Compter le total des commentaires
-                    $total_comments_query = $bdd->query("SELECT COUNT(*) as total FROM commentaire");
-                    $total_comments = $total_comments_query->fetch(PDO::FETCH_OBJ)->total;
-                    $total_pages = ceil($total_comments / $comments_per_page);
+                $total_comments_query = $bdd->query("SELECT COUNT(*) as total FROM commentaire");
+                $total_comments = $total_comments_query->fetch(PDO::FETCH_OBJ)->total;
+                $total_pages = ceil($total_comments / $comments_per_page);
 
-                    // Récupérer les 5 commentaires de la page actuelle
-                    $req = $bdd->query("SELECT * FROM commentaire ORDER BY date_com DESC LIMIT $offset, $comments_per_page");
-                    while ($data = $req->fetch(PDO::FETCH_OBJ)) {
-                        $id_cl = $data->id_client;
-                        $text = $data->texte;
-                        $date_com = $data->date_com;
+                $req = $bdd->query("SELECT * FROM commentaire ORDER BY date_com DESC LIMIT $offset, $comments_per_page");
+                while ($data = $req->fetch(PDO::FETCH_OBJ)) {
+                    $id_cl = $data->id_client;
+                    $text = htmlspecialchars($data->texte);
+                    $date_com = htmlspecialchars($data->date_com);
                 ?>
-                <div class="row">
-                    <div class="col-6">
-                        <?php 
-                        $req2 = $bdd->query("SELECT nom_client FROM client WHERE id_client=$id_cl");
-                        $data2 = $req2->fetch(PDO::FETCH_OBJ);
-                        $nom = $data2->nom_client;
-                        echo '<p style="font-weight: bold !important;">' . htmlspecialchars($nom, ENT_QUOTES, 'UTF-8') . '</p>';
-                        ?>
+                    <div class="comment-item">
+                        <div class="row">
+                            <div class="col-6">
+                                <?php
+                                $req2 = $bdd->query("SELECT nom_client FROM client WHERE id_client=$id_cl");
+                                $data2 = $req2->fetch(PDO::FETCH_OBJ);
+                                $nom = htmlspecialchars($data2->nom_client);
+                                echo '<p class="fw-bold">' . $nom . '</p>';
+                                ?>
+                            </div>
+                            <div class="col-6 text-end">
+                                <p class="fw-bold"><?php echo $date_com; ?></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p><?php echo $text; ?></p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <?php
-                        echo '<p class="text-end" style="font-weight: bold !important;">' . htmlspecialchars($date_com, ENT_QUOTES, 'UTF-8') . '</p>';
-                        ?>
-                    </div>
+                    <hr>
+                <?php } ?>
+                <div class="pagination-buttons d-flex justify-content-center mt-3">
+                    <?php
+                    if ($page > 1) {
+                        $prev_page = $page - 1;
+                        echo "<a href='?page=$prev_page' class='btn btn-outline-primary mx-2'>Précédent</a>";
+                    }
+                    if ($page < $total_pages) {
+                        $next_page = $page + 1;
+                        echo "<a href='?page=$next_page' class='btn btn-primary mx-2'>Suivant</a>";
+                    }
+                    ?>
                 </div>
-                <div class="row px-5 py-2 m-2 bg-light border">
-                    <?php echo $text;  ?>                    
-                </div>
-                <hr>
-                <?php }?>
-                <!-- Liens de pagination -->
-                <div class="row justify-content-center mt-3">
-                        <?php
-                        if ($page > 1) {
-                            $prev_page = $page - 1;
-                            echo "<a href='?page=$prev_page' class='btn btn-outline-primary mx-2'>Précédent</a>";
-                        }
-                        if ($page < $total_pages) {
-                            $next_page = $page + 1;
-                            echo "<a href='?page=$next_page' class='btn btn-primary mx-2'>Afficher la suite</a>";
-                        }
-                        ?>
-                </div>
-                    
             </div>
-
-
-
         </div>
-        <br>
-        <!-- le footer -->
-        <div id="div3" class="container-fluid">
-            <footer>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <img src="photos/footer.png" alt="" class="img-fluid">
-                       
-                    </div>
-                    <div class="col-sm-4 d-flex align-items-center justify-content-center">
-                        <ul style="list-style-type: none;">DISCOVER :
-                            <li><a href="aboutus.html" class="link-zoom"> About us</a></li>
-                            <li><a href="" class="link-zoom"> Nos Chefs</a></li>
-                            <li><a href="" class="link-zoom"> Nos Plats</a></li>
-                            <li><a href="" class="link-zoom"> Evenements</a></li>
-                        </ul>
-                        
-                    </div>
-                    <div class="col-sm-4 ">
-                        <div class="row pt-3 ">
-                            
-                            <div class="col-sm-4 text-end ">
-                                <a href="https://www.facebook.com/search/top?q=restaurant%20dar%20leila"> <img src="icone/fb.png" alt=""  width="25" height="25"></a>
-                            </div>
-                            <div class="col-sm-8 "> Facebook</div>
-                        </div>
-                        <div class="row">
-                           
-                            <div class="col-sm-4 text-end ">
-                                <a href="https://www.facebook.com/search/top?q=restaurant%20dar%20leila"> <img src="icone/inst.png" alt=""  width="25" height="25"></a>
-                            </div>
-                            <div class="col-sm-8"> Instagram</div>
-                        </div>
-                        <div class="row">
-                            
-                            <div class="col-sm-4 text-end">
-                                <a href="tel:+33758428417"> <img src="icone/tel.png" alt=""  width="25" height="25"></a>
-                            </div>
-                            <div class="col-sm-8 ">+33758428417 </div>
-                        </div>
-                        <div class="row">
-                           
-                            <div class="col-sm-4 text-end ">
-                                <a href="mailto:koceila.haddad@outlook.com"> <img src="icone/email.jpg" alt=""  width="25" height="25"></a>
-                            </div>
-                            <div class="col-sm-8"> Koceila.haddad@outlook.com</div>
-                            <div class="col-sm-4 text-end ">
-                                <a href="https://maps.app.goo.gl/uJyLGFWHdaoNxB3X7"> <img src="icone/maps.jpg" alt=""  width="25" height="25"></a>
-                            </div>
-                            <div class="col-sm-8"> 30 Rue Esquirol, 75013 Paris</div>
-                        </div>
+    </section>
 
-                    </div>
+    <!-- Footer -->
+    <footer class="container-fluid">
+        <div class="row text-center text-sm-start">
+            <div class="col-12 col-sm-4 mb-3 mb-sm-0">
+                <img src="photos/footer.png" alt="Footer Image" class="img-fluid d-none d-sm-block">
+            </div>
+            <div class="col-6 col-sm-4 mb-3 mb-sm-0 d-flex align-items-center justify-content-center">
+                <ul style="list-style-type: none; padding: 0;">
+                    <li><strong>DISCOVER :</strong></li>
+                    <li><a href="aboutus.html" class="link-zoom">About us</a></li>
+                    <li><a href="#" class="link-zoom">Nos Chefs</a></li>
+                    <li><a href="#" class="link-zoom">Nos Plats</a></li>
+                    <li><a href="#" class="link-zoom">Événements</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-sm-4 social-links d-flex align-items-center justify-content-center flex-wrap">
+                <div class="mb-2">
+                    <a href="https://www.facebook.com/search/top?q=restaurant%20dar%20leila" class="d-flex align-items-center">
+                        <img src="icone/fb.png" alt="Facebook" width="25" height="25">
+                        <span class="d-none d-sm-inline ms-2">Facebook</span>
+                    </a>
                 </div>
-
-            </footer>
+                <div class="mb-2">
+                    <a href="https://www.instagram.com/restaurant_parisien/" class="d-flex align-items-center">
+                        <img src="icone/inst.png" alt="Instagram" width="25" height="25">
+                        <span class="d-none d-sm-inline ms-2">Instagram</span>
+                    </a>
+                </div>
+                <div class="mb-2">
+                    <a href="tel:+33758428417" class="d-flex align-items-center">
+                        <img src="icone/tel.png" alt="Téléphone" width="25" height="25">
+                        <span class="d-none d-sm-inline ms-2">+33758428417</span>
+                    </a>
+                </div>
+                <div class="mb-2">
+                    <a href="mailto:koceila.haddad@outlook.com" class="d-flex align-items-center">
+                        <img src="icone/email.jpg" alt="Email" width="25" height="25">
+                        <span class="d-none d-sm-inline ms-2">Koceila.haddad@outlook.com</span>
+                    </a>
+                </div>
+                <div>
+                    <a href="https://maps.app.goo.gl/uJyLGFWHdaoNxB3X7" class="d-flex align-items-center">
+                        <img src="icone/maps.jpg" alt="Adresse" width="25" height="25">
+                        <span class="d-none d-sm-inline ms-2">30 Rue Esquirol, 75013 berhasil Paris</span>
+                    </a>
+                </div>
+            </div>
         </div>
+    </footer>
 
-    </header>
+    <!-- notifications -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fermer"></button>
+            </div>
+            <div class="toast-body">
+                Plat ajouté au panier avec succès !
+            </div>
+        </div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>   
+    <!-- JavaScript pour l'ajout au panier -->
+    <script>
+    function addToCart(id_plat) {
+        const id_client = <?php echo json_encode($_SESSION['id']); ?>;
+        const data = {
+            id_plat: id_plat,
+            id_client: id_client
+        };
+
+        fetch('add_to_cart.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            const toastElement = document.getElementById('cartToast');
+            const toastBody = toastElement.querySelector('.toast-body');
+            const toast = new bootstrap.Toast(toastElement);
+
+            if (result.success) {
+                toastBody.textContent = 'Plat ajouté au panier avec succès !';
+                toast.show();
+            } else {
+                toastBody.textContent = 'Erreur : ' + result.message;
+                toast.show();
+            }
+        })
+        .catch(error => {
+            console.error('Erreur :', error);
+            const toastElement = document.getElementById('cartToast');
+            const toastBody = toastElement.querySelector('.toast-body');
+            const toast = new bootstrap.Toast(toastElement);
+            toastBody.textContent = 'Une erreur s\'est produite. Veuillez réessayer.';
+            toast.show();
+        });
+    }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

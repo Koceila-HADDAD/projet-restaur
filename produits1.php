@@ -116,7 +116,10 @@ if (!isset($_SESSION['id'])) {
                             <h5 class="card-title"><?php echo $nom_plat; ?></h5>
                             <h5>Prix : <?php echo $prix; ?> €</h5>
                             <div class="card-footer text-center">
-                                    <button class="btn btn-primary" onclick="addToCart(<?php echo $id_plat; ?>)">Ajouter au panier</button>
+                                <form method="POST" action="">
+                                    <input type="hidden" name="id_plat" value="<?php echo $id_plat; ?>">
+                                    <button type="submit" class="btn btn-primary">Ajouter au panier</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -128,7 +131,22 @@ if (!isset($_SESSION['id'])) {
         $req->closeCursor();
         ?>
 
-        
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_plat'])) {
+            $id = $_POST['id_plat'];
+            $id_client = $_SESSION['id'];
+            if (!empty($id)) {
+                $req = $bdd->prepare("SELECT * FROM plat WHERE id_plat = :id");
+                $req->execute(['id' => $id]);
+                $data = $req->fetch(PDO::FETCH_OBJ);
+                if ($data) {
+                    $id_plat = $data->id_plat;
+                    $req = $bdd->prepare("INSERT INTO panier (id_plat, id_client, quantite) VALUES (:id_plat, :id_client, 1)");
+                    $req->execute(['id_plat' => $id_plat, 'id_client' => $id_client]);
+                }
+            }
+        }
+        ?>
     </section>
 
     <!-- Carrousel -->
@@ -217,58 +235,7 @@ if (!isset($_SESSION['id'])) {
             </div>
         </div>
     </footer>
-    <!-- notifications -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <strong class="me-auto">Notification</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fermer"></button>
-            </div>
-            <div class="toast-body">
-                Plat ajouté au panier avec succès !
-            </div>
-        </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-    function addToCart(id_plat) {
-        const id_client = <?php echo json_encode($_SESSION['id']); ?>;
-        const data = {
-            id_plat: id_plat,
-            id_client: id_client
-        };
-
-        fetch('add_to_cart.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(result => {
-            const toastElement = document.getElementById('cartToast');
-            const toastBody = toastElement.querySelector('.toast-body');
-            const toast = new bootstrap.Toast(toastElement);
-
-            if (result.success) {
-                toastBody.textContent = 'Plat ajouté au panier avec succès !';
-                toast.show();
-            } else {
-                toastBody.textContent = 'Erreur : ' + result.message;
-                toast.show();
-            }
-        })
-        .catch(error => {
-            console.error('Erreur :', error);
-            const toastElement = document.getElementById('cartToast');
-            const toastBody = toastElement.querySelector('.toast-body');
-            const toast = new bootstrap.Toast(toastElement);
-            toastBody.textContent = 'Une erreur s\'est produite. Veuillez réessayer.';
-            toast.show();
-        });
-    }
-    </script>
 </body>
 </html>

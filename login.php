@@ -1,15 +1,16 @@
 <?php
-session_start(); // Doit être la première ligne exécutée
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     try {
-        $bdd = new PDO("mysql:host=localhost;dbname=restaurant", 'koceila', '123456789');
+        $bdd = new PDO("mysql:host=localhost;dbname=restaurant;charset=utf8", 'koceila', '123456789');
         $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        $stmt = $bdd->query("SELECT * FROM client WHERE email ='$email' AND mot_de_passe ='$password'");
+        $stmt = $bdd->prepare("SELECT * FROM client WHERE email = :email AND mot_de_passe = :password");
+        $stmt->execute(['email' => $email, 'password' => $password]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($user) {
@@ -19,15 +20,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: accueil.php");
             exit();
         } else {
-            echo "<p class='text-danger mt-2'>Email ou mot de passe incorrect.</p>";
+            $error = "Email ou mot de passe incorrect.";
         }
-        
     } catch (PDOException $e) {
-        echo "<p class='text-danger'>Erreur : " . $e->getMessage() . "</p>";
+        $error = "Erreur : " . htmlspecialchars($e->getMessage());
     }
-    $conn = null;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -35,17 +35,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-    <header>
+    <!-- Header -->
+    <header class="py-3">
         <div class="container-fluid">
-            <div class="row" style="background-color:#ffffff;">
-                <div class="col-sm-4">
+            <div class="row align-items-center bg-white">
+                <div class="col-12 col-sm-4">
                     <nav class="navbar navbar-expand-lg bg-white">
                         <div class="container-fluid">
-                            <img src="logo/logooo2.png" alt="" width="40" height="40">
+                            <a class="navbar-brand" href="accvisiteur.php">
+                                <img src="logo/logooo2.png" alt="Logo" width="40" height="40">
+                            </a>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
@@ -65,85 +69,91 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </nav>
                 </div>
-                <div class="col-sm-5"><a href="accvisiteur.php"><img src="logo/logooo.png" alt="" class="img-fluid"></a></div>
+                <div class="col-12 col-sm-8 text-center">
+                    <a href="accvisiteur.php">
+                        <img src="logo/logooo.png" alt="Logo" class="logo-center img-fluid">
+                    </a>
+                </div>
             </div>
         </div>
-        <br>
     </header>
-    <div class="container bg-light mt-5">
-        <h1>Connexion :</h1>
-        <div class="container py-5">
+
+    
+
+    <!-- Formulaire de connexion -->
+    <main class="container my-5">
+        <div class="login-form">
+            <h1 class="text-center mb-4">Connexion</h1>
+            <?php if (isset($error)): ?>
+                <p class="text-danger text-center"><?php echo htmlspecialchars($error); ?></p>
+            <?php endif; ?>
             <form method="POST" action="">
-                <div class="row mb-3">
-                    <div class="col-sm-4"><label for="Email" class="form-label">Email</label></div>
-                    <div class="col-sm-8">
-                        <input type="email" class="form-control" id="Email" name="email" placeholder="Votre email" required>
-                    </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Votre email" required>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-sm-4"><label for="password" class="form-label">Mot de passe</label></div>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Votre mot de passe" required>
-                    </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Votre mot de passe" required>
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Se connecter</button>
-                    <br>
-                    <br>
-                    <p>Vous n'avez pas encore de compte ? <a href="inscription.php">Inscrivez-vous</a> dès maintenant pour profiter de tous nos services !</p>
+                    <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+                    <p class="mt-3">Vous n'avez pas encore de compte ? <a href="inscription.php">Inscrivez-vous</a> dès maintenant !</p>
                 </div>
             </form>
         </div>
-    </div>
-    <br>
-    <div id="div3" class="container-fluid">
-        <br>
-        <footer>
-            <div class="row">
-                <div class="col-sm-4">
-                    <img src="photos/footer.png" alt="" class="img-fluid">
+    </main>
+
+    <!-- Footer -->
+    <footer class="container-fluid">
+        <div class="row text-center text-sm-start">
+            <div class="col-12 col-sm-4 mb-3 mb-sm-0">
+                <img src="photos/footer.png" alt="Footer Image" class="img-fluid d-none d-sm-block">
+            </div>
+            <div class="col-6 col-sm-4 mb-3 mb-sm-0 d-flex align-items-center justify-content-center">
+                <ul style="list-style-type: none; padding: 0;">
+                    <li><strong>DISCOVER :</strong></li>
+                    <li><a href="aboutus.html" class="link-zoom">About us</a></li>
+                    <li><a href="#" class="link-zoom">Nos Chefs</a></li>
+                    <li><a href="#" class="link-zoom">Nos Plats</a></li>
+                    <li><a href="#" class="link-zoom">Événements</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-sm-4 social-links d-flex align-items-center justify-content-center flex-wrap">
+                <div class="mb-2">
+                    <a href="https://www.facebook.com/search/top?q=restaurant%20dar%20leila" class="d-flex align-items-center">
+                        <img src="icone/fb.png" alt="Facebook" width="25" height="25">
+                        <span class="d-none d-sm-inline ms-2">Facebook</span>
+                    </a>
                 </div>
-                <div class="col-sm-4 text-center">
-                    <ul style="list-style-type: none;">DISCOVER :
-                        <li><a href="aboutus.html" class="link-zoom"> About us</a></li>
-                        <li><a href="" class="link-zoom"> Nos Chefs</a></li>
-                        <li><a href="" class="link-zoom"> Nos Plats</a></li>
-                        <li><a href="" class="link-zoom"> Evenements</a></li>
-                    </ul>
+                <div class="mb-2">
+                    <a href="https://www.instagram.com/restaurant_parisien/" class="d-flex align-items-center">
+                        <img src="icone/inst.png" alt="Instagram" width="25" height="25">
+                        <span class="d-none d-sm-inline ms-2">Instagram</span>
+                    </a>
                 </div>
-                <div class="col-sm-4">
-                    <div class="row">
-                        <div class="col-sm-4 text-end">
-                            <a href="https://www.facebook.com/search/top?q=restaurant%20dar%20leila"><img src="icone/fb.png" alt="" width="25" height="25"></a>
-                        </div>
-                        <div class="col-sm-8"> Facebook</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4 text-end">
-                            <a href="https://www.facebook.com/search/top?q=restaurant%20dar%20leila"><img src="icone/inst.png" alt="" width="25" height="25"></a>
-                        </div>
-                        <div class="col-sm-8"> Instagram</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4 text-end">
-                            <a href="tel:+33758428417"><img src="icone/tel.png" alt="" width="25" height="25"></a>
-                        </div>
-                        <div class="col-sm-8">+33758428417</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4 text-end">
-                            <a href="mailto:koceila.haddad@outlook.com"><img src="icone/email.jpg" alt="" width="25" height="25"></a>
-                        </div>
-                        <div class="col-sm-8"> Koceila.haddad@outlook.com</div>
-                        <div class="col-sm-4 text-end">
-                            <a href="https://maps.app.goo.gl/uJyLGFWHdaoNxB3X7"><img src="icone/maps.jpg" alt="" width="25" height="25"></a>
-                        </div>
-                        <div class="col-sm-8"> 30 Rue Esquirol, 75013 Paris</div>
-                    </div>
+                <div class="mb-2">
+                    <a href="tel:+33758428417" class="d-flex align-items-center">
+                        <img src="icone/tel.png" alt="Téléphone" width="25" height="25">
+                        <span class="d-none d-sm-inline ms-2">+33758428417</span>
+                    </a>
+                </div>
+                <div class="mb-2">
+                    <a href="mailto:koceila.haddad@outlook.com" class="d-flex align-items-center">
+                        <img src="icone/email.jpg" alt="Email" width="25" height="25">
+                        <span class="d-none d-sm-inline ms-2">Koceila.haddad@outlook.com</span>
+                    </a>
+                </div>
+                <div>
+                    <a href="https://maps.app.goo.gl/uJyLGFWHdaoNxB3X7" class="d-flex align-items-center">
+                        <img src="icone/maps.jpg" alt="Adresse" width="25" height="25">
+                        <span class="d-none d-sm-inline ms-2">30 Rue Esquirol, 75013 Paris</span>
+                    </a>
                 </div>
             </div>
-        </footer>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
