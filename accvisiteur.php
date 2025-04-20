@@ -6,7 +6,7 @@
     <title>Bleu, Blanc, Saveur</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
 <body>
@@ -39,13 +39,13 @@
                                         <a class="nav-link active" href="accvisiteur.php">Accueil</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="produitvisit.php">Produits</a>
+                                        <a class="nav-link" href="php/produitvisit.php">Produits</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="Panier.php">Panier</a>
+                                        <a class="nav-link" href="php/Panier.php">Panier</a>
                                     </li>
                                     <li>
-                                        <a  class="nav-link d-block d-sm-none" href="login.php" style="text-decoration: none;">
+                                        <a  class="nav-link d-block d-sm-none" href="php/login.php" style="text-decoration: none;">
                                             Connexion
                                         </a>
                 
@@ -61,7 +61,7 @@
                     </a>
                 </div>
                 <div class="col-12 col-sm-3 text-center text-sm-end d-none d-md-block">
-                    <a href="login.php" style="text-decoration: none;">
+                    <a href="php/login.php" style="text-decoration: none;">
                         <button type="button" class="btn btn-outline-primary mt-2 mt-sm-0">Connexion</button>
                     </a>
                 </div>
@@ -136,16 +136,16 @@
             </div>
             <div class="carousel-inner rounded-3">
                 <div class="carousel-item active">
-                    <img src="evenements2/ev1.jpg" class="d-block w-100" alt="Événement 1">
+                    <img src="photos/evenements2/ev1.jpg" class="d-block w-100" alt="Événement 1">
                 </div>
                 <div class="carousel-item">
-                    <img src="evenements2/ev2.jpg" class="d-block w-100" alt="Événement 2">
+                    <img src="photos/evenements2/ev2.jpg" class="d-block w-100" alt="Événement 2">
                 </div>
                 <div class="carousel-item">
-                    <img src="evenements2/ev3.jpg" class="d-block w-100" alt="Événement 3">
+                    <img src="photos/evenements2/ev3.jpg" class="d-block w-100" alt="Événement 3">
                 </div>
                 <div class="carousel-item">
-                    <img src="evenements2/ev4.jpg" class="d-block w-100" alt="Événement 4">
+                    <img src="photos/evenements2/ev4.jpg" class="d-block w-100" alt="Événement 4">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -168,7 +168,7 @@
             <div class="col-6 col-sm-4 mb-3 mb-sm-0 d-flex align-items-center justify-content-center">
                 <ul style="list-style-type: none; padding: 0;">
                     <li><strong>DISCOVER :</strong></li>
-                    <li><a href="aboutus.html" class="link-zoom">About us</a></li>
+                    <li><a href="php/aboutus.php" class="link-zoom">About us</a></li>
                     <li><a href="#" class="link-zoom">Nos Chefs</a></li>
                     <li><a href="#" class="link-zoom">Nos Plats</a></li>
                     <li><a href="#" class="link-zoom">Événements</a></li>

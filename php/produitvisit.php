@@ -15,7 +15,7 @@ try {
     <title>Nos Produits</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
 
 </head>
 <body>
@@ -26,8 +26,8 @@ try {
                 <div class="col-12 col-sm-4">
                     <nav class="navbar navbar-expand-lg bg-white">
                         <div class="container-fluid">
-                            <a class="navbar-brand" href="accvisiteur.php">
-                                <img src="logo/logooo2.png" alt="Logo" width="40" height="40">
+                            <a class="navbar-brand" href="../accvisiteur.php">
+                                <img src="../logo/logooo2.png" alt="Logo" width="40" height="40">
                             </a>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
@@ -35,7 +35,7 @@ try {
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="accvisiteur.php">Accueil</a>
+                                        <a class="nav-link" href="../accvisiteur.php">Accueil</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link active" href="produitvisit.php">Produits</a>
@@ -54,13 +54,13 @@ try {
                     </nav>
                 </div>
                 <div class="col-12 col-sm-5 text-center">
-                    <a href="accvisiteur.php">
-                        <img src="logo/logooo.png" alt="Logo" class="logo-center img-fluid">
+                    <a href="../accvisiteur.php">
+                        <img src="../logo/logooo.png" alt="Logo" class="logo-center img-fluid">
                     </a>
                 </div>
-                <div class="col-12 col-sm-3 text-center text-sm-end">
-                    <a href="login.php" class="text-decoration-none">
-                        <button type="button" class="btn btn-outline-primary mt-2 mt-sm-0 d-none d-md-block">Connexion</button>
+                <div class="col-12 col-sm-3 text-center text-sm-end d-none d-md-block">
+                    <a href="login.php" style="text-decoration: none;">
+                        <button type="button" class="btn btn-outline-primary mt-2 mt-sm-0">Connexion</button>
                     </a>
                 </div>
             </div>
@@ -71,7 +71,7 @@ try {
     <section class="container-fluid my-4">
         <div class="row">
             <div class="image-container">
-                <img src="photos/arrplan.jpg" alt="Image de fond" class="img-fluid d-none d-sm-block">
+                <img src="../photos/arrplan.jpg" alt="Image de fond" class="img-fluid d-none d-sm-block">
                 <div class="texte d-none d-sm-block">
                     Bleu Blanc Saveur vous invite à une expérience gastronomique raffinée, alliant tradition et créativité. Dans un cadre élégant, notre chef sublime des produits d'exception pour éveiller vos sens. Laissez-vous emporter par une cuisine authentique et audacieuse.
                 </div>
@@ -86,7 +86,7 @@ try {
     <!-- Menu -->
     <section class="container my-4">
         <h2 class="text-center mb-4">
-            <img src="logo/logooo2.png" alt="Logo" width="40" height="40"> Le Menu
+            <img src="../logo/logooo2.png" alt="Logo" width="40" height="40"> Le Menu
         </h2>
         <?php
         $req = $bdd->query("SELECT * FROM plat ORDER BY id_plat");
@@ -119,7 +119,7 @@ try {
     <!-- Carrousel -->
     <section class="container my-4">
         <h2 class="text-center mb-4">
-            <img src="logo/logooo2.png" alt="Logo" width="40" height="40"> Événements
+            <img src="../logo/logooo2.png" alt="Logo" width="40" height="40"> Événements
         </h2>
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
             <div class="carousel-indicators">
@@ -130,16 +130,16 @@ try {
             </div>
             <div class="carousel-inner rounded-3">
                 <div class="carousel-item active">
-                    <img src="evenements2/ev1.jpg" class="d-block w-100" alt="Événement 1">
+                    <img src="../photos/evenements2/ev1.jpg" class="d-block w-100" alt="Événement 1">
                 </div>
                 <div class="carousel-item">
-                    <img src="evenements2/ev2.jpg" class="d-block w-100" alt="Événement 2">
+                    <img src="../photos/evenements2/ev2.jpg" class="d-block w-100" alt="Événement 2">
                 </div>
                 <div class="carousel-item">
-                    <img src="evenements2/ev3.jpg" class="d-block w-100" alt="Événement 3">
+                    <img src="../photos/evenements2/ev3.jpg" class="d-block w-100" alt="Événement 3">
                 </div>
                 <div class="carousel-item">
-                    <img src="evenements2/ev4.jpg" class="d-block w-100" alt="Événement 4">
+                    <img src="../photos/evenements2/ev4.jpg" class="d-block w-100" alt="Événement 4">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -157,12 +157,12 @@ try {
     <footer class="container-fluid">
         <div class="row text-center text-sm-start">
             <div class="col-12 col-sm-4 mb-3 mb-sm-0">
-                <img src="photos/footer.png" alt="Footer Image" class="img-fluid d-none d-sm-block">
+                <img src="../photos/footer.png" alt="Footer Image" class="img-fluid d-none d-sm-block">
             </div>
             <div class="col-6 col-sm-4 mb-3 mb-sm-0 d-flex align-items-center justify-content-center">
                 <ul style="list-style-type: none; padding: 0;">
                     <li><strong>DISCOVER :</strong></li>
-                    <li><a href="aboutus.html" class="link-zoom">About us</a></li>
+                    <li><a href="aboutus.php" class="link-zoom">About us</a></li>
                     <li><a href="#" class="link-zoom">Nos Chefs</a></li>
                     <li><a href="#" class="link-zoom">Nos Plats</a></li>
                     <li><a href="#" class="link-zoom">Événements</a></li>
@@ -171,31 +171,31 @@ try {
             <div class="col-6 col-sm-4 social-links d-flex align-items-center justify-content-center flex-wrap">
                 <div class="mb-2">
                     <a href="https://www.facebook.com/search/top?q=restaurant%20dar%20leila" class="d-flex align-items-center">
-                        <img src="icone/fb.png" alt="Facebook" width="25" height="25">
+                        <img src="../icone/fb.png" alt="Facebook" width="25" height="25">
                         <span class="d-none d-sm-inline ms-2">Facebook</span>
                     </a>
                 </div>
                 <div class="mb-2">
                     <a href="https://www.instagram.com/restaurant_parisien/" class="d-flex align-items-center">
-                        <img src="icone/inst.png" alt="Instagram" width="25" height="25">
+                        <img src="../icone/inst.png" alt="Instagram" width="25" height="25">
                         <span class="d-none d-sm-inline ms-2">Instagram</span>
                     </a>
                 </div>
                 <div class="mb-2">
                     <a href="tel:+33758428417" class="d-flex align-items-center">
-                        <img src="icone/tel.png" alt="Téléphone" width="25" height="25">
+                        <img src="../icone/tel.png" alt="Téléphone" width="25" height="25">
                         <span class="d-none d-sm-inline ms-2">+33758428417</span>
                     </a>
                 </div>
                 <div class="mb-2">
                     <a href="mailto:koceila.haddad@outlook.com" class="d-flex align-items-center">
-                        <img src="icone/email.jpg" alt="Email" width="25" height="25">
+                        <img src="../icone/email.jpg" alt="Email" width="25" height="25">
                         <span class="d-none d-sm-inline ms-2">Koceila.haddad@outlook.com</span>
                     </a>
                 </div>
                 <div>
                     <a href="https://maps.app.goo.gl/uJyLGFWHdaoNxB3X7" class="d-flex align-items-center">
-                        <img src="icone/maps.jpg" alt="Adresse" width="25" height="25">
+                        <img src="../icone/maps.jpg" alt="Adresse" width="25" height="25">
                         <span class="d-none d-sm-inline ms-2">30 Rue Esquirol, 75013 Paris</span>
                     </a>
                 </div>

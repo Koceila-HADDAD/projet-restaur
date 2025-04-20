@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Inscription</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
 
 </head>
 <body>
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <nav class="navbar navbar-expand-lg bg-white">
                         <div class="container-fluid">
                             <a class="navbar-brand" href="accvisiteur.php">
-                                <img src="logo/logooo2.png" alt="Logo" width="40" height="40">
+                                <img src="../logo/logooo2.png" alt="Logo" width="40" height="40">
                             </a>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="accvisiteur.php">Accueil</a>
+                                        <a class="nav-link active" aria-current="page" href="../accvisiteur.php">Accueil</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="produitvisit.php">Produits</a>
@@ -90,8 +90,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </nav>
                 </div>
                 <div class="col-12 col-sm-5 text-center">
-                    <a href="accvisiteur.php">
-                        <img src="logo/logooo.png" alt="Logo" class="logo-center img-fluid">
+                    <a href="../accvisiteur.php">
+                        <img src="../logo/logooo.png" alt="Logo" class="logo-center img-fluid">
                     </a>
                 </div>
                 <div class="col-12 col-sm-3 text-center text-sm-end d-none d-md-block">
@@ -158,12 +158,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <footer class="container-fluid">
         <div class="row text-center text-sm-start">
             <div class="col-12 col-sm-4 mb-3 mb-sm-0">
-                <img src="photos/footer.png" alt="Footer Image" class="img-fluid d-none d-sm-block">
+                <img src="../photos/footer.png" alt="Footer Image" class="img-fluid d-none d-sm-block">
             </div>
             <div class="col-6 col-sm-4 mb-3 mb-sm-0 d-flex align-items-center justify-content-center">
                 <ul style="list-style-type: none; padding: 0;">
                     <li><strong>DISCOVER :</strong></li>
-                    <li><a href="aboutus.html" class="link-zoom">About us</a></li>
+                    <li><a href="aboutus.php" class="link-zoom">About us</a></li>
                     <li><a href="#" class="link-zoom">Nos Chefs</a></li>
                     <li><a href="#" class="link-zoom">Nos Plats</a></li>
                     <li><a href="#" class="link-zoom">Événements</a></li>
@@ -172,31 +172,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="col-6 col-sm-4 social-links d-flex align-items-center justify-content-center flex-wrap">
                 <div class="mb-2">
                     <a href="https://www.facebook.com/search/top?q=restaurant%20dar%20leila" class="d-flex align-items-center">
-                        <img src="icone/fb.png" alt="Facebook" width="25" height="25">
+                        <img src="../icone/fb.png" alt="Facebook" width="25" height="25">
                         <span class="d-none d-sm-inline ms-2">Facebook</span>
                     </a>
                 </div>
                 <div class="mb-2">
                     <a href="https://www.instagram.com/restaurant_parisien/" class="d-flex align-items-center">
-                        <img src="icone/inst.png" alt="Instagram" width="25" height="25">
+                        <img src="../icone/inst.png" alt="Instagram" width="25" height="25">
                         <span class="d-none d-sm-inline ms-2">Instagram</span>
                     </a>
                 </div>
                 <div class="mb-2">
                     <a href="tel:+33758428417" class="d-flex align-items-center">
-                        <img src="icone/tel.png" alt="Téléphone" width="25" height="25">
+                        <img src="../icone/tel.png" alt="Téléphone" width="25" height="25">
                         <span class="d-none d-sm-inline ms-2">+33758428417</span>
                     </a>
                 </div>
                 <div class="mb-2">
                     <a href="mailto:koceila.haddad@outlook.com" class="d-flex align-items-center">
-                        <img src="icone/email.jpg" alt="Email" width="25" height="25">
+                        <img src="../icone/email.jpg" alt="Email" width="25" height="25">
                         <span class="d-none d-sm-inline ms-2">Koceila.haddad@outlook.com</span>
                     </a>
                 </div>
                 <div>
                     <a href="https://maps.app.goo.gl/uJyLGFWHdaoNxB3X7" class="d-flex align-items-center">
-                        <img src="icone/maps.jpg" alt="Adresse" width="25" height="25">
+                        <img src="../icone/maps.jpg" alt="Adresse" width="25" height="25">
                         <span class="d-none d-sm-inline ms-2">30 Rue Esquirol, 75013 Paris</span>
                     </a>
                 </div>
