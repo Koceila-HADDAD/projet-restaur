@@ -1,15 +1,10 @@
 <?php
-
 session_start();
 
 if (isset($_SESSION['id'])) {
-    $etat="accueil.php";
-   
-}
-else{
-    $etat="../accvisiteur.php";
-  
-
+    $etat = "accueil.php";
+} else {
+    $etat = "../accvisiteur.php";
 }
 ?>
 <!DOCTYPE html>
@@ -17,11 +12,10 @@ else{
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription</title>
+    <title>Nos Chefs</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/style.css">
-
 </head>
 <body>
     <!-- Header -->
@@ -40,8 +34,7 @@ else{
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="<?php echo $etat; ?>">Accueil</a>
-
+                                        <a class="nav-link active" aria-current="page" href="<?php echo $etat; ?>">Accueil</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="produitvisit.php">Produits</a>
@@ -50,9 +43,7 @@ else{
                                         <a class="nav-link" href="Panier.php">Panier</a>
                                     </li>
                                     <li>
-                                    <a class="nav-link d-none d-md-none" href="login.php" class="text-decoration-none"> Connexion
-                                    </a>  
-                       
+                                        <a class="nav-link d-none d-md-none" href="login.php" class="text-decoration-none">Connexion</a>  
                                     </li>
                                 </ul>
                             </div>
@@ -73,35 +64,52 @@ else{
         </div>
     </header>
     
-    <!-- Section À Propos -->
+    <!-- Section Nos Chefs -->
     <section class="container my-5 text-center">
-        <h1 class="text-primary">À Propos de Bleu Blanc Saveur</h1>
-        <p class="lead">Un restaurant gastronomique qui sublime les saveurs françaises.</p>
+        <h1 class="text-primary">Nos Chefs</h1>
+        <p class="lead">Découvrez les talents derrière les saveurs de Bleu Blanc Saveur.</p>
     </section>
     
-    <!-- Petite Histoire -->
+    <!-- Présentation des Chefs -->
     <section class="container my-5 text-center">
-        <h2>Notre Histoire</h2>
-        <p>Fondé en 1995, Bleu Blanc Saveur est né de la passion d'un chef visionnaire souhaitant offrir une expérience culinaire unique. Inspiré par les saveurs authentiques de la cuisine française, notre restaurant s'est imposé comme une référence gastronomique à Paris.</p>
+        <h2>Les Maîtres de la Cuisine</h2>
+        <p>Nos chefs, passionnés par la gastronomie française, mettent tout leur cœur pour vous offrir une expérience culinaire exceptionnelle.</p>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <img src="../photos/chefs/chefm1.jpeg" alt="Chef 1" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+                <h3>Chef Julien Dupont</h3>
+                <p>Spécialiste des plats traditionnels français, Julien apporte une touche de modernité à chaque assiette.</p>
+            </div>
+            <div class="col-md-4">
+                <img src="../photos/chefs/cheff.jpeg" alt="Chef 2" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+                <h3>Chef Marie Leclerc</h3>
+                <p>Experte en pâtisserie, Marie crée des desserts qui émerveillent les papilles.</p>
+            </div>
+            <div class="col-md-4">
+                <img src="../photos/chefs/chefm2.jpeg" alt="Chef 3" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+                <h3>Chef Lucas Martin</h3>
+                <p>Passionné par les produits locaux, Lucas excelle dans les plats de saison.</p>
+            </div>
+        </div>
     </section>
     
-    <!-- Section Mission -->
+    <!-- Section Philosophie -->
     <section class="container my-5 text-center">
         <div class="row">
             <div class="col-md-4">
-                <i class="fas fa-utensils fa-3x text-primary"></i>
-                <h3 class="mt-3">Notre Passion</h3>
-                <p>Des plats raffinés préparés avec des ingrédients frais et locaux.</p>
+                <i class="bi bi-fire fa-3x text-primary"></i>
+                <h3 class="mt-3">Passion</h3>
+                <p>Nos chefs cuisinent avec cœur et créativité.</p>
             </div>
             <div class="col-md-4">
-                <i class="fas fa-wine-glass-alt fa-3x text-success"></i>
-                <h3 class="mt-3">Notre Expérience</h3>
-                <p>Un cadre élégant pour une expérience culinaire inoubliable.</p>
+                <i class="bi bi-book fa-3x text-success"></i>
+                <h3 class="mt-3">Expertise</h3>
+                <p>Des années d’expérience au service de la gastronomie.</p>
             </div>
             <div class="col-md-4">
-                <i class="fas fa-star fa-3x text-warning"></i>
-                <h3 class="mt-3">Notre Engagement</h3>
-                <p>Offrir une cuisine d’exception et un service irréprochable.</p>
+                <i class="bi bi-tree fa-3x text-warning"></i>
+                <h3 class="mt-3">Produits Locaux</h3>
+                <p>Nous privilégions des ingrédients frais et de saison.</p>
             </div>
         </div>
     </section>
@@ -113,7 +121,8 @@ else{
                 <img src="../photos/footer.png" alt="Footer Image" class="img-fluid d-none d-sm-block">
             </div>
             <div class="col-6 col-sm-4 mb-3 mb-sm-0 d-flex align-items-center justify-content-center">
-            <li><strong>DISCOVER :</strong></li>
+                <ul style="list-style-type: none; padding: 0;">
+                <li><strong>DISCOVER :</strong></li>
                     <li><a href="aboutus.php" class="link-zoom">About us</a></li>
                     <li><a href="nos-chefs.php" class="link-zoom">Nos Chefs</a></li>
                     <li><a href="produitvisit.php" class="link-zoom">Nos Plats</a></li>

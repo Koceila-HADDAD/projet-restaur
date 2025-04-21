@@ -20,10 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt->fetchColumn() > 0) {
                 $error = "Cet email est déjà utilisé.";
             } else {
-                // Hacher le mot de passe
+                
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-                // Insérer l'utilisateur
+                
                 $req = $bdd->prepare("INSERT INTO client (nom_client, prenom_client, email, telephone, mot_de_passe) 
                                       VALUES (:nom, :prenom, :email, :phone, :password)");
                 $req->execute([
@@ -162,10 +162,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="col-6 col-sm-4 mb-3 mb-sm-0 d-flex align-items-center justify-content-center">
                 <ul style="list-style-type: none; padding: 0;">
-                    <li><strong>DISCOVER :</strong></li>
+                <li><strong>DISCOVER :</strong></li>
                     <li><a href="aboutus.php" class="link-zoom">About us</a></li>
-                    <li><a href="#" class="link-zoom">Nos Chefs</a></li>
-                    <li><a href="#" class="link-zoom">Nos Plats</a></li>
+                    <li><a href="nos-chefs.php" class="link-zoom">Nos Chefs</a></li>
+                    <li><a href="produitvisit.php" class="link-zoom">Nos Plats</a></li>
                     <li><a href="#" class="link-zoom">Événements</a></li>
                 </ul>
             </div>

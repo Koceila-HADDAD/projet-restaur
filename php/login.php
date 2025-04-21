@@ -4,16 +4,18 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
+    $hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    echo $hashed_password;
     try {
         $bdd = new PDO("mysql:host=localhost;dbname=restaurant;charset=utf8", 'koceila', '123456789');
         $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        $stmt = $bdd->prepare("SELECT * FROM client WHERE email = :email AND mot_de_passe = :password");
-        $stmt->execute(['email' => $email, 'password' => $password]);
+        $stmt = $bdd->prepare("SELECT * FROM client WHERE email = :email");
+        $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        if ($user) {
+        if ($user && password_verify($password, $user['mot_de_passe'])) {
+            // Connexion réussie, par exemple : démarrer une session
             $_SESSION['id'] = $user['id_client']; 
             $_SESSION['nom'] = $user['nom_client'];
             $_SESSION['MOHAND'] = "tazmalt";
@@ -112,10 +114,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="col-6 col-sm-4 mb-3 mb-sm-0 d-flex align-items-center justify-content-center">
                 <ul style="list-style-type: none; padding: 0;">
-                    <li><strong>DISCOVER :</strong></li>
+                <li><strong>DISCOVER :</strong></li>
                     <li><a href="aboutus.php" class="link-zoom">About us</a></li>
-                    <li><a href="#" class="link-zoom">Nos Chefs</a></li>
-                    <li><a href="#" class="link-zoom">Nos Plats</a></li>
+                    <li><a href="nos-chefs.php" class="link-zoom">Nos Chefs</a></li>
+                    <li><a href="produitvisit.php" class="link-zoom">Nos Plats</a></li>
                     <li><a href="#" class="link-zoom">Événements</a></li>
                 </ul>
             </div>

@@ -176,10 +176,10 @@ if (!isset($_SESSION['id'])) {
             </div>
             <div class="col-6 col-sm-4 mb-3 mb-sm-0 d-flex align-items-center justify-content-center">
                 <ul style="list-style-type: none; padding: 0;">
-                    <li><strong>DISCOVER :</strong></li>
+                <li><strong>DISCOVER :</strong></li>
                     <li><a href="aboutus.php" class="link-zoom">About us</a></li>
-                    <li><a href="#" class="link-zoom">Nos Chefs</a></li>
-                    <li><a href="#" class="link-zoom">Nos Plats</a></li>
+                    <li><a href="nos-chefs.php" class="link-zoom">Nos Chefs</a></li>
+                    <li><a href="produitvisit.php" class="link-zoom">Nos Plats</a></li>
                     <li><a href="#" class="link-zoom">Événements</a></li>
                 </ul>
             </div>

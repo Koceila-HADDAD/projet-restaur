@@ -1,10 +1,10 @@
 <?php
+// Le code PHP reste inchangé
 session_start();
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
 }
-// Verifier si l'utilisateur est connecté
 try {
     $bdd = new PDO('mysql:host=localhost;dbname=restaurant', 'koceila', '123456789');
     $bdd->exec('SET NAMES utf8');
@@ -22,55 +22,42 @@ if (isset($_GET['supprimer']) && is_numeric($_GET['supprimer'])) {
     header("Location: Panier.php");
     exit();
 }
- // Gestion des ajouts 
-        if (isset($_GET['ajouter']) && is_numeric($_GET['ajouter'])) {
-            $id_panier = $_GET['ajouter'];
-        
-        $req_ajout = $bdd->prepare("UPDATE panier SET quantite = quantite + 1 WHERE id_panier = :id_panier AND id_client = :id_client");
-            $req_ajout->execute(['id_panier' => $id_panier, 'id_client' => $id_client]);
-            header("Location: Panier.php");
-            exit();}
- // Gestion de retirer
-    if (isset($_GET['retirer']) && is_numeric($_GET['retirer'])) {
-        $id_panier = $_GET['retirer'];
-
+if (isset($_GET['ajouter']) && is_numeric($_GET['ajouter'])) {
+    $id_panier = $_GET['ajouter'];
+    $req_ajout = $bdd->prepare("UPDATE panier SET quantite = quantite + 1 WHERE id_panier = :id_panier AND id_client = :id_client");
+    $req_ajout->execute(['id_panier' => $id_panier, 'id_client' => $id_client]);
+    header("Location: Panier.php");
+    exit();
+}
+if (isset($_GET['retirer']) && is_numeric($_GET['retirer'])) {
+    $id_panier = $_GET['retirer'];
     $req_ret = $bdd->prepare("UPDATE panier SET quantite = quantite - 1 WHERE id_panier = :id_panier AND id_client = :id_client");
-        $req_ret->execute(['id_panier' => $id_panier, 'id_client' => $id_client]);
-        header("Location: Panier.php");
-        
-        $req_verif = $bdd->query("SELECT  quantite FROM panier WHERE id_panier = $id_panier AND id_client = $id_client");
-        $result = $req_verif->fetch(PDO::FETCH_ASSOC);
-        $quantite = $result['quantite'];
-    if ($quantite==0){
+    $req_ret->execute(['id_panier' => $id_panier, 'id_client' => $id_client]);
+    header("Location: Panier.php");
+    
+    $req_verif = $bdd->query("SELECT quantite FROM panier WHERE id_panier = $id_panier AND id_client = $id_client");
+    $result = $req_verif->fetch(PDO::FETCH_ASSOC);
+    $quantite = $result['quantite'];
+    if ($quantite == 0) {
         $req_vider_panier = $bdd->query("DELETE FROM panier WHERE id_panier = $id_panier AND id_client = $id_client");
-
-  
     }
     exit();
-    }
+}
 
-// Gestion de la validation de la commande
 if (isset($_POST['valider_commande'])) {
     $type_livraison = $_POST['type_livraison'];
     $adresse_livraison = $_POST['adresse_livraison'];
     $prix_totale = $_POST['prix_totale'];
 
-    
     $req_commande = $bdd->prepare("INSERT INTO commande (id_client, type_livraison, adrs_livraison, prix_totale) VALUES (:id_client, :type_livraison, :adrs_livraison, :prix_totale)");
     $req_commande->execute([
         'id_client' => $id_client,
         'type_livraison' => $type_livraison,
         'adrs_livraison' => $adresse_livraison,
         'prix_totale' => $prix_totale
-        
-
     ]);
     $_SESSION['total'] = $prix_totale;
-   
 
-    //  Vider le panier après validation
-    //$req_vider_panier = $bdd->prepare("DELETE FROM panier WHERE id_client = :id_client");
-    //$req_vider_panier->execute(['id_client' => $id_client]);
     header("Location: confirmation.php"); 
     exit();
 }
@@ -88,11 +75,8 @@ $nombre_plats = $result['nombre_plats'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panier</title>
     <link rel="stylesheet" href="../css/style.css">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
-        
 </head>
 <body>
     <!-- Header -->
@@ -114,7 +98,7 @@ $nombre_plats = $result['nombre_plats'];
                                         <a class="nav-link" href="accueil.php">Accueil</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="produits.php">Produits</a>
+                                        <a class="nav-link" href="produits.php">Produits</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link active" href="panier.php">Panier</a>
@@ -140,8 +124,6 @@ $nombre_plats = $result['nombre_plats'];
             </div>
         </div>
     </header>
-   
-   
 
     <!-- Contenu principal -->
     <main class="container my-5">
@@ -203,15 +185,15 @@ $nombre_plats = $result['nombre_plats'];
                     <div class="cart-form">
                         <form method="POST" action="Panier.php">
                             <div class="mb-3">
-                                <label for="type-livraison" class="form-label"><h3>Type de livraison</h3></label>
-                                <select class="form-control form-control-lg" id="type-livraison" name="type_livraison">
+                                <label for="type_livraison" class="form-label"><h3>Type de livraison</h3></label>
+                                <select class="form-control form-control-lg" id="type_livraison" name="type_livraison">
                                     <option value="domicile">À domicile</option>
                                     <option value="surplace">Sur place</option>
                                 </select>
                             </div>
                             <div class="mb-3 position-relative">
-                                <label for="adresse" class="form-label"><h3>Adresse</h3></label>
-                                <input type="text" class="form-control form-control-lg" id="adresse" name="adresse_livraison" placeholder="Entrez votre adresse" autocomplete="off">
+                                <label for="adresse_livraison" class="form-label"><h3>Adresse</h3></label>
+                                <input type="text" class="form-control form-control-lg" id="adresse_livraison" name="adresse_livraison" placeholder="Entrez votre adresse" autocomplete="off">
                                 <div class="dropdown">
                                     <ul class="dropdown-menu w-100" id="suggestions" style="max-height: 100px; overflow-y: auto;"></ul>
                                 </div>
@@ -238,8 +220,8 @@ $nombre_plats = $result['nombre_plats'];
                 <ul style="list-style-type: none; padding: 0;">
                     <li><strong>DISCOVER :</strong></li>
                     <li><a href="aboutus.php" class="link-zoom">About us</a></li>
-                    <li><a href="#" class="link-zoom">Nos Chefs</a></li>
-                    <li><a href="#" class="link-zoom">Nos Plats</a></li>
+                    <li><a href="nos-chefs.php" class="link-zoom">Nos Chefs</a></li>
+                    <li><a href="produitvisit.php" class="link-zoom">Nos Plats</a></li>
                     <li><a href="#" class="link-zoom">Événements</a></li>
                 </ul>
             </div>
@@ -281,5 +263,34 @@ $nombre_plats = $result['nombre_plats'];
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="../js/adresse.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Vérifier si les éléments existent
+            const typeLivraison = $('#type_livraison');
+            const adresseInput = $('#adresse_livraison');
+            
+            if (!typeLivraison.length || !adresseInput.length) {
+                console.error("Erreur : Éléments type_livraison ou adresse_livraison introuvables.");
+                return;
+            }
+
+            // Fonction pour gérer l'état du champ d'adresse
+            function toggleAdresse() {
+                if (typeLivraison.val() === 'surplace') {
+                    adresseInput.prop('disabled', true).val('');
+                    console.log("Champ d'adresse désactivé.");
+                } else {
+                    adresseInput.prop('disabled', false);
+                    console.log("Champ d'adresse activé.");
+                }
+            }
+
+            // Exécuter au chargement de la page
+            toggleAdresse();
+
+            // Écouter les changements dans le menu déroulant
+            typeLivraison.on('change', toggleAdresse);
+        });
+    </script>
 </body>
 </html>
