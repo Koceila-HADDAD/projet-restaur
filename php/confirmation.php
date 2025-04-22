@@ -88,7 +88,6 @@ try {
 
                 
                     include 'mail.php';
-                // Redirection après succès
 
                 
                 header("Location: accueil.php");

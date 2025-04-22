@@ -103,6 +103,10 @@ $nombre_plats = $result['nombre_plats'];
                                     <li class="nav-item">
                                         <a class="nav-link active" href="panier.php">Panier</a>
                                     </li>
+                                    <li>
+                                    <button type="button" class="btn btn-outline-danger mt-2 mt-sm-0 d-block d-sm-none">Déconnexion</button>
+
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -118,7 +122,7 @@ $nombre_plats = $result['nombre_plats'];
                 </div>
                 <div class="col-12 col-sm-2 text-center text-sm-end">
                     <a href="logout.php">
-                        <button type="button" class="btn btn-outline-danger mt-2 mt-sm-0">Déconnexion</button>
+                    <button type="button" class="btn btn-outline-danger mt-2 mt-sm-0 d-none d-sm-block">Déconnexion</button>
                     </a>
                 </div>
             </div>
@@ -193,7 +197,7 @@ $nombre_plats = $result['nombre_plats'];
                             </div>
                             <div class="mb-3 position-relative">
                                 <label for="adresse_livraison" class="form-label"><h3>Adresse</h3></label>
-                                <input type="text" class="form-control form-control-lg" id="adresse_livraison" name="adresse_livraison" placeholder="Entrez votre adresse" autocomplete="off">
+                                <input type="text" class="form-control form-control-lg" id="adresse_livraison" name="adresse_livraison" placeholder="Entrez votre adresse" autocomplete="off" required>
                                 <div class="dropdown">
                                     <ul class="dropdown-menu w-100" id="suggestions" style="max-height: 100px; overflow-y: auto;"></ul>
                                 </div>

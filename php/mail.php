@@ -9,7 +9,6 @@
 <?php
 session_start();
 
-// Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
@@ -45,7 +44,6 @@ $facture = $data->id_paiement;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Inclure les fichiers PHPMailer
 require 'phpmailer/PHPMailer.php';
 require 'phpmailer/SMTP.php';
 require 'phpmailer/Exception.php';
@@ -53,28 +51,25 @@ require 'phpmailer/Exception.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Créer une instance de PHPMailer
 $mail = new PHPMailer(true);
 
 try {
-    // Configuration SMTP (Gmail)
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = 'bleublancsaveur@gmail.com';
-    $mail->Password = 'lqfz oqxe djjj qtwt'; // Mot de passe d'application
+    $mail->Password = 'lqfz oqxe djjj qtwt'; 
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
     $mail->CharSet = 'UTF-8';
 
     // Contenu de l'email
     $mail->setFrom('bleublancsaveur@gmail.com', 'Bleu Blanc Saveur');
-    $mail->addAddress($email_cl); // Destinataire
+    $mail->addAddress($email_cl); 
     $mail->Subject = 'Votre facture - Bleu Blanc Saveur';
     $mail->isHTML(true);
     $date = new DateTime('now', new DateTimeZone('Europe/Paris'));
     
-    // Construire le corps de l'email
     $body = '
     <h2 style="color: #003087;">Bleu Blanc Saveur</h2>
     <p>Restaurant Français - 30 Rue Esquirol 75013 Paris</p>
@@ -96,7 +91,7 @@ try {
         </thead>
         <tbody>';
  
-    // Récupérer les éléments du panier
+   
     $req = $bdd->prepare("SELECT id_panier,id_plat,id_client,quantite FROM panier WHERE id_client = :id_client  GROUP BY id_plat ");
     $req->execute(['id_client' => $id_client]);
     $items_html = '';

@@ -53,6 +53,10 @@ if (!isset($_SESSION['id'])) {
                                     <li class="nav-item">
                                         <a class="nav-link" href="panier.php">Panier</a>
                                     </li>
+                                    <li>
+                                    <button type="button" class="btn btn-outline-danger mt-2 mt-sm-0 d-block d-sm-none">Déconnexion</button>
+
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -68,7 +72,7 @@ if (!isset($_SESSION['id'])) {
                 </div>
                 <div class="col-12 col-sm-2 text-center text-sm-end">
                     <a href="logout.php">
-                        <button type="button" class="btn btn-outline-danger mt-2 mt-sm-0">Déconnexion</button>
+                        <button type="button" class="btn btn-outline-danger mt-2 mt-sm-0 d-none d-sm-block">Déconnexion</button>
                     </a>
                 </div>
             </div>
